@@ -1,4 +1,4 @@
-package automation;
+package common;
 
 import static io.restassured.RestAssured.given;
 
@@ -43,9 +43,9 @@ public class CommonBase {
 	public int loopCount = 0;
 	public final int ACTION_REPEAT = 5;
 
-	public CommonBase(WebDriver driver) {
-		this.driver = driver;
-	}
+//	public CommonBase(WebDriver driver) {
+//		this.driver = driver;
+//	}
 
 	public WebDriver openBrowser(String BrowserName, String url) {
 		if (BrowserName == "FireFox") {
@@ -119,7 +119,7 @@ public class CommonBase {
 	 * @param pageUrl
 	 * @param driver
 	 */
-	public void navigateURL(String pageUrl) {
+	public void navigateURL(String pageUrl, WebDriver driver) {
 		driver.get(pageUrl);
 		pause(1000);
 	}
