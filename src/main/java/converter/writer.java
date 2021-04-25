@@ -49,7 +49,8 @@ public class writer {
          String sLine = importHeader() + className("Test",beforeMethod("init") + test("tc1", "Test") + afterMethod("quitDriver(driver)"));
 	        try {
 	            //Whatever the file path is.
-	            File statText = new File("F:\\Test\\PROJECT\\src\\test\\java\\excute\\Test.java");
+	            File statText = new File(System.getProperty("user.dir") + "/src/test/java/excute/Test.java");
+	            System.out.println(System.getProperty("user.dir") + "/src/test/java/excute");
 	            FileOutputStream is = new FileOutputStream(statText);
 	            OutputStreamWriter osw = new OutputStreamWriter(is);    
 	            Writer w = new BufferedWriter(osw);
