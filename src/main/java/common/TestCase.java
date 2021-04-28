@@ -5,12 +5,12 @@ import java.util.List;
 public class TestCase
 {
     private String name;
-    private List<TestStep> steps;
+    private List<TestDetail> steps;
     
     public TestCase() {
     }
     
-    public TestCase(final String name, final List<TestStep> steps) {
+    public TestCase(final String name, final List<TestDetail> steps) {
         this.name = name;
         this.steps = steps;
     }
@@ -24,11 +24,11 @@ public class TestCase
         return this;
     }
     
-    public List<TestStep> getSteps() {
+    public List<TestDetail> getSteps() {
         return this.steps;
     }
     
-    public TestCase setSteps(final List<TestStep> steps) {
+    public TestCase setSteps(final List<TestDetail> steps) {
         this.steps = steps;
         return this;
     }

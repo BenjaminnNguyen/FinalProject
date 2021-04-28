@@ -37,9 +37,13 @@ public class ExcelUtils {
 	
 //1. WORKING WITH EXCEL FILE
 	public static  void setExcelFile(String path, String SheetName) throws Exception{
-		FileInputStream ExcelFile=new FileInputStream(path);
+		File file=new File(path);
+		if(file.canRead()) {
+		FileInputStream ExcelFile=new FileInputStream(file);
 		workBook =new XSSFWorkbook(ExcelFile);
 		workSheet=workBook.getSheet(SheetName);
+		ExcelFile.close();
+		}
 	}
 	
 	public static XSSFSheet getSheet(String SheetName) {
@@ -50,14 +54,14 @@ public class ExcelUtils {
 		return sheet;
 	}
 	
-	public  void open() throws IOException{
-		File file=new File(filepath);
-		if(file.canRead()) {
-			FileInputStream streamIn=new FileInputStream(file);
-			workBook=new XSSFWorkbook(streamIn);
-			streamIn.close();
-		}
-	}
+//	public  void open() throws IOException{
+//		File file=new File(filepath);
+//		if(file.canRead()) {
+//			FileInputStream streamIn=new FileInputStream(file);
+//			workBook=new XSSFWorkbook(streamIn);
+//			streamIn.close();
+//		}
+//	}
 	
 	public void save()throws IOException{
 		FileOutputStream streamOut=new FileOutputStream(filepath);
@@ -167,7 +171,7 @@ public class ExcelUtils {
 	// name)
 	public static int getRowContains(String SheetName,String sTestCaseName, int colNum ) throws Exception {
 		int i;
-		workSheet = workBook.getSheet(SheetName);
+		workSheet = workBook.getSheet(SheetName);	
 		int rowCount = ExcelUtils.getRowCount(SheetName);
 		for (i = 0; i < rowCount; i++) {
 			if (ExcelUtils.getCellValue(SheetName, i, colNum).equalsIgnoreCase(sTestCaseName)) {
@@ -177,22 +181,6 @@ public class ExcelUtils {
 		return i;
 	}
 
-	// This method is to get the count of the test steps of test case
-	// This method takes three arguments (Sheet name, Test Case Id & Test case
-	// row number)
-//	public static int getTestStepsCount(String SheetName,String sTestCaseID, int iTestCaseStart) throws Exception {
-//		for (int i = iTestCaseStart; i <= ExcelUtils.getRowCount(SheetName); i++) {
-//			if (!sTestCaseID.equals(ExcelUtils.getCellValue(SheetName,i, Constants.Col_TestCaseID))) {
-//				int number = i;
-//				return number;
-//			}
-//		}
-//		workSheet = workBook.getSheet(SheetName);
-//		int number = workSheet.getLastRowNum() + 1;
-//		return number;
-//	}
-	
-//4. WORKING WITH CELL IN EXCEL
 	
 	public static String getCellValue(int RowNum, int ColNum) throws Exception {
 		try {
@@ -211,42 +199,8 @@ public class ExcelUtils {
 		return cell.getStringCellValue();
 	} 
 	
-//	public static String getCellValue(String sheetName, int rowIndex,int colIndex) {
-//		XSSFSheet sheet = getSheet(sheetName);
-//		XSSFRow row=getRow(sheet, rowIndex);
-//		XSSFCell cell=getCell(row, colIndex);
-//		
-//		FormulaEvaluator evaluator = workBook.getCreationHelper().createFormulaEvaluator();
-//		DataFormatter df = new DataFormatter();
-//		
-//		if(cell!=null) {
-//			switch(evaluator.evaluateInCell(cell).getCellType()) {
-//			
-//			case STRING:
-//				return cell.getStringCellValue();
-//				
-//			case NUMERIC:
-////				return String.valueOf(cell.getNumericCellValue());
-//				return df.formatCellValue(cell);
-//			
-//			case BOOLEAN:
-//				return String.valueOf(cell.getBooleanCellValue());
-//			
-//			case BLANK:
-//				return "";
-//			
-//			case ERROR:
-//				return cell.getErrorCellString();
-//			
-//			case FORMULA:
-//				return cell.getCellFormula();
-//			default:
-//				break;
-//			}
-//		}
-//		return null;
-//	}
 	
+
 	public static String getCellValue(XSSFCell cell) {
 		FormulaEvaluator evaluator = workBook.getCreationHelper().createFormulaEvaluator();
 		DataFormatter df = new DataFormatter();

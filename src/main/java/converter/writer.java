@@ -7,57 +7,134 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
+
+import common.TestDetail;
+import common.TestObject;
+import common.TestParam;
 
 public class writer {
-	public String beforeMethod(String before)
-     {
-         String sample = "\t @BeforeMethod \n" +
-             "\t public void beforeMethod() { \n \t\t" +
-             before + ";" + "\n\t } \n";
-         return sample;
-     }
-	 public String afterMethod(String after)
-     {
-         String sample = "\t @AfterMethod \n" +
-             "\t public void afterMethod() { \n \t\t" +
-             after + ";" + "\n\t } \n";
-         return sample;
-     }
-	 public String test(String nameTC, String test )
-     {
-         String sample = "\t @Test \n" +
-             "\t public void "+nameTC+"() { \n \t\t" +
-             test + ";" + "\n\t } \n";
-         return sample;
-     }
-	 public String importHeader()
-     {
-         String sLine = "package excute;\n"
-         		+ "import common.CommonBase;\n" +
-                 "import org.openqa.selenium.By;\n" +
-                 "import org.openqa.selenium.WebElement;\n" +
-                 "import org.testng.annotations.*;\n" +
-                 " \n";
-         return sLine;
-     }
-	 public String className(String name, String body)
-     {
-         String sLine = "\npublic final class "+name+" extends CommonBase { \n"+body+"\n}";
-         return sLine;
-     }
-	 public void writing() {
-         String sLine = importHeader() + className("Test",beforeMethod("init") + test("tc1", "Test") + afterMethod("quitDriver(driver)"));
-	        try {
-	            //Whatever the file path is.
-	            File statText = new File(System.getProperty("user.dir") + "/src/test/java/excute/Test.java");
-	            System.out.println(System.getProperty("user.dir") + "/src/test/java/excute");
-	            FileOutputStream is = new FileOutputStream(statText);
-	            OutputStreamWriter osw = new OutputStreamWriter(is);    
-	            Writer w = new BufferedWriter(osw);
-	            w.write(sLine);
-	            w.close();
-	        } catch (IOException e) {
-	            e.getMessage();	      
-	    }
+	readExcel re = new readExcel();
+
+	public String TestCase() throws Exception {
+		String name = "";
+		String body = "";
+		String sample = "";
+
+		List<TestDetail> lst = new ArrayList();
+		lst = re.readDetail();
+		List<TestParam> lstPr = new ArrayList();
+		lstPr = re.readTestParam();
+		List<TestObject> lstOj = new ArrayList();
+		lstOj = re.readTestObject();
+		// body=convert(lst, lstOj, lstPr, "acb");
+		for (TestDetail a : lst) {
+			if (a.getTestCase() != "" && a.getTestCase() != null) {
+				name = a.getTestCase();
+				if(name.toUpperCase().equals("INIT")) {
+					sample = sample + "\t@BeforeMethod \n" + "\tpublic void beforeMethod() { ";
+				}
+				if(a.getTestCase().toUpperCase().equals("AFTER")) {
+					sample = sample + "}" + "\n\t@AfterMethod" + "\n\tpublic void afterMethod() {";
+				}
+				if(!a.getTestCase().toUpperCase().equals("INIT")&&!a.getTestCase().toUpperCase().equals("AFTER")) {
+					sample = sample + "}" + "\n\t@Test" + "\n\tpublic void " + name + "() {";
+				}
+			}
+				if(a.getOutput()!=null && a.getOutput()!="") {
+					sample = sample + "\n\t\t" + "String " + a.getOutput() + "=" + a.getScript() + "(";
+					if(a.getObject()!=""&& a.getObject() != null){
+						sample=sample+getObject(lstOj, a.getObject())+ ",";
+					}if(a.getInput()!=""&& a.getInput() != null){
+						sample=sample+getInput(lstPr, a.getInput());
+					}else
+	                {						
+						sample= sample.substring(0, sample.length()-1);
+	                }
+				}else {
+					sample = sample + "\n\t\t" + a.getScript() + "(";
+		              if (a.getObject() != "" && a.getObject() != null) {
+		            	  sample = sample + getObject(lstOj, a.getObject()) + ",";
+		              }
+		              if (a.getInput() != "" && a.getInput() != null) {
+		            	  sample = sample + getInput(lstPr, a.getInput());
+		              } else {
+							sample= sample.substring(0, sample.length()-1);
+		              }
+				}
+				sample =sample+");";
+				
+			}
+			
+		return sample = sample + "\n}";
+	}
+					
+
+	public String importHeader() {
+		String sLine = "package excute;\n" + "import common.CommonBase;\n" + "import org.openqa.selenium.By;\n"
+				+ "import org.openqa.selenium.WebElement;\n" + "import org.testng.annotations.*;\n" + " \n";
+		return sLine;
+	}
+
+	public String className(String name, String body) {
+		String sLine = "\npublic final class " + name + " extends CommonBase { \n" + body + "\n}";
+		return sLine;
+
+	}
+
+	public String getObject(List<TestObject> lst, String object) throws Exception {
+		List<TestObject> lstOj = new ArrayList();
+		lstOj = re.readTestObject();
+		for (TestObject obj : lstOj) {
+			if (obj.getName().equals(object)) {
+				if (obj.getType().equals("id")) {
+					return "By.id(\"" + obj.getValue() + "\")";
+				} else {
+					return "By.xpath(\"" + obj.getValue() + "\")";
+
+				}
+			}
+		}
+
+		return "";
+	}
+
+	public String getInput(List<TestParam> lst, String input) throws Exception {
+		List<TestParam> lstPr = new ArrayList();
+		lstPr = re.readTestParam();
+		String[] inputs = input.split(";");
+		String output = "";
+		for (String i : inputs) {
+			if (i.contains("$")) {
+				for (TestParam pr : lstPr) {
+					if (pr.getName().equals(i.replace("$", ""))) {
+						output= output+ "\"" + pr.getValue() + "\",";
+					}
+				}
+			} else {
+				output= output+ i +",";
+			}
+			
+		}
+		output= output.substring(0, output.length()-1);
+		return output;
+	}
+
+	public void writing(String name) throws Exception {
+		String sLine = importHeader()
+				+ className(name, TestCase());
+		try {
+			// Whatever the file path is.
+			File statText = new File(System.getProperty("user.dir") + "/src/test/java/excute/TestCase.java");
+			System.out.println(System.getProperty("user.dir") + "/src/test/java/excute");
+			FileOutputStream is = new FileOutputStream(statText);
+			OutputStreamWriter osw = new OutputStreamWriter(is);
+			Writer w = new BufferedWriter(osw);
+			w.write(sLine);
+			w.close();
+		} catch (IOException e) {
+			e.getMessage();
+		}
 	}
 }

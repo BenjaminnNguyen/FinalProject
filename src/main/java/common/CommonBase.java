@@ -280,7 +280,8 @@ public class CommonBase {
 	 * @param value
 	 * @param validate
 	 */
-	public void setText(WebElement element, String value) {
+	public void setText(Object object, String value) {
+		WebElement element =getElement(object);
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		try {
 			// WebElement element = getElementPresent(locator, 10000, 0);
@@ -386,8 +387,9 @@ public class CommonBase {
 	 * @param locator
 	 * @param opParams
 	 */
-	public void click(WebElement element, Object... opParams) {
+	public void click(Object locator, Object... opParams) {
 		int notDisplay = (Integer) (opParams.length > 0 ? opParams[0] : 0);
+		WebElement element=getElement(locator);
 		Actions actions = new Actions(driver);
 		try {
 			if (element.isEnabled()) {
