@@ -6,8 +6,13 @@ import java.awt.EventQueue;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JOptionPane;
+
 import javax.swing.ListModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import com.google.common.io.Files;
 
 import common.TestDetail;
 import common.TestObject;
@@ -25,6 +30,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.TextArea;
@@ -35,6 +41,7 @@ import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 
 public class convert extends JFrame {
 
@@ -71,17 +78,63 @@ public class convert extends JFrame {
 		final String fileNameString ="";
 		label.setBounds(10, 43, 300, 21);
 		contentPane.add(label);
+		
+		final JList list = new JList();
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setModel(new AbstractListModel() {
+			String[] values = listFilesForFolder(System.getProperty("user.dir") + "/TESTSUITE/");
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		list.setSelectedIndex(0);
+		list.setBounds(20, 64, 212, 220);
+		contentPane.add(list);
+		
 		Button button = new Button("Upload file");
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
-				int option = fileChooser.showOpenDialog(contentPane);
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			                "Excel File", "xlsx", "xls");
+				fileChooser.setFileFilter(filter);
+				int option = fileChooser.showOpenDialog(null);
 				File file = fileChooser.getSelectedFile();
-				
 				if (option == JFileChooser.APPROVE_OPTION) {
-					label.setText(file.getName());
-					//fileNameString=file.getName().replace(".xlsx", "").replace(".xls", "");
+					label.setText(file.getPath());
+					System.out.println(file.getPath()+"\n"+System.getProperty("user.dir") + "/TESTSUITE/"+file.getName()
+					+"\n"+file.getName()+"\n");
+					String[] values = listFilesForFolder(System.getProperty("user.dir") + "/TESTSUITE/");
+					boolean check = false;
+					for(int i=0;i<values.length;i++) {
+						if(values[i].equals(file.getName())) {
+							check=true;
+							
+						}
+					}
+					if(check==true) {						
+						JOptionPane.showMessageDialog(null, "File already exists!");
+					}else {
+						try {
+							Files.copy(new File(file.getPath()), new File(System.getProperty("user.dir") + "/TESTSUITE/"+file.getName()));
+							list.setModel(new AbstractListModel() {
+								String[] values = listFilesForFolder(System.getProperty("user.dir") + "/TESTSUITE/");
+								public int getSize() {
+									return values.length;
+								}
+								public Object getElementAt(int index) {
+									return values[index];
+								}
+							});
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
 					
 				} else {
 					label.setText("Open command canceled");
@@ -94,7 +147,7 @@ public class convert extends JFrame {
 		});
 		button.setFont(new Font("Arial", Font.BOLD, 13));
 		button.setBackground(Color.YELLOW);
-		button.setBounds(10, 312, 120, 30);
+		button.setBounds(10, 312, 110, 30);
 		contentPane.add(button);
 
 		TextArea textArea = new TextArea();
@@ -107,7 +160,7 @@ public class convert extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				writer w = new writer();
 				try {
-					w.writing("Testcase");
+					w.writing("TestCase");
 				} catch (Exception e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
@@ -167,27 +220,32 @@ public class convert extends JFrame {
 		});
 		button_1.setFont(new Font("Arial", Font.BOLD, 13));
 		button_1.setBackground(Color.YELLOW);
-		button_1.setBounds(220, 153, 120, 30);
+		button_1.setBounds(238, 154, 120, 30);
 		contentPane.add(button_1);
 		
-		JList list = new JList();
-//	    DefaultListModel<String> dlm = new DefaultListModel<String>();
-//	    dlm.addElement("Huhong");
-//	    JList<String> jlist = new JList<>(dlm);
+		Button button_2 = new Button("Refresh");
+		button_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+//				SwingUtilities.updateComponentTreeUI(list);
+//				list.setModel(new AbstractListModel() {
+//					String[] values = listFilesForFolder(System.getProperty("user.dir") + "/TESTSUITE/");
+//					public int getSize() {
+//						return values.length;
+//					}
+//					public Object getElementAt(int index) {
+//						return values[index];
+//					}
+//				});
 
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.setModel(new AbstractListModel() {
-			String[] values = listFilesForFolder(System.getProperty("user.dir") + "/TESTSUITE/");
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
 			}
 		});
-		list.setSelectedIndex(0);
-		list.setBounds(20, 64, 200, 220);
-		contentPane.add(list);
+		button_2.setFont(new Font("Arial", Font.BOLD, 13));
+		button_2.setBackground(Color.YELLOW);
+		button_2.setBounds(112, 312, 110, 30);
+		contentPane.add(button_2);
+		
+		
 
 	}
 	public String[] listFilesForFolder(String path) {

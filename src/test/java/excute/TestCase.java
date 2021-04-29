@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.annotations.*;
  
 
-public final class Testcase extends CommonBase { 
+public final class TestCase extends CommonBase { 
 	@BeforeMethod 
 	public void beforeMethod() { 
 		openBrowser("Chrome","google.com");
