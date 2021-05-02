@@ -32,6 +32,8 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+import io.github.bonigarcia.wdm.config.DriverManagerType;
 //import MODEL.Config;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -48,23 +50,37 @@ public class CommonBase {
 //	}
 
 	public WebDriver openBrowser(String BrowserName, String url) {
+		try {
 		if (BrowserName == "FireFox") {
-			System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "\\DRIVER\\geckodriver.exe");
+			//System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/DRIVER/geckodriver.exe");
+			WebDriverManager.firefoxdriver().setup();
 			driver = new FirefoxDriver();
 			driver.get(url);
 		} else if (BrowserName == "Chrome") {
-			System.setProperty("webdriver.chrome.driver",
-					System.getProperty("user.dir") + "\\DRIVER\\chromedriver.exe");
+//			System.setProperty("webdriver.chrome.driver",
+//					System.getProperty("user.dir") + "/DRIVER/chromedriver.exe");
+			WebDriverManager.chromedriver().setup();
 			driver = new ChromeDriver();
 			driver.get(url);
 		} else if (BrowserName == "IE") {
-			System.setProperty("webdriver.ie.driver", System.getProperty("user.dir") + "\\DRIVER\\IEDriverServer.exe");
+			WebDriverManager.iedriver().setup();
+		//	System.setProperty("webdriver.ie.driver", System.getProperty("user.dir") + "/DRIVER/IEDriverServer.exe");
 			driver = new InternetExplorerDriver();
 			driver.get(url);
-		} else {
-			System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "\\DRIVER\\geckodriver.exe");
-			driver = new FirefoxDriver();
+		}else if (BrowserName == "Opera") {
+			WebDriverManager.operadriver().setup();
+			driver = new InternetExplorerDriver();
 			driver.get(url);
+		}
+		else {
+			WebDriverManager.chromedriver().setup();
+			driver = new ChromeDriver();
+			driver.get(url);
+		}
+		
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
 		driver.manage().window().maximize();
 		return driver;

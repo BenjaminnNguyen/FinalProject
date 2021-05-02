@@ -14,8 +14,13 @@ import common.TestDetail;
 import common.TestObject;
 import common.TestParam;
 
-public class writer {
-	readExcel re = new readExcel();
+public class writer extends readExcel{
+	public writer(String filepath) {
+		super(filepath);
+		// TODO Auto-generated constructor stub
+	}
+
+	//readExcel re = new readExcel();
 
 	public String TestCase() throws Exception {
 		String name = "";
@@ -23,11 +28,11 @@ public class writer {
 		String sample = "";
 
 		List<TestDetail> lst = new ArrayList();
-		lst = re.readDetail();
+		lst = readDetail();
 		List<TestParam> lstPr = new ArrayList();
-		lstPr = re.readTestParam();
+		lstPr = readTestParam();
 		List<TestObject> lstOj = new ArrayList();
-		lstOj = re.readTestObject();
+		lstOj = readTestObject();
 		// body=convert(lst, lstOj, lstPr, "acb");
 		for (TestDetail a : lst) {
 			if (a.getTestCase() != "" && a.getTestCase() != null) {
@@ -85,7 +90,7 @@ public class writer {
 
 	public String getObject(List<TestObject> lst, String object) throws Exception {
 		List<TestObject> lstOj = new ArrayList();
-		lstOj = re.readTestObject();
+		lstOj = readTestObject();
 		for (TestObject obj : lstOj) {
 			if (obj.getName().equals(object)) {
 				if (obj.getType().equals("id")) {
@@ -102,22 +107,35 @@ public class writer {
 
 	public String getInput(List<TestParam> lst, String input) throws Exception {
 		List<TestParam> lstPr = new ArrayList();
-		lstPr = re.readTestParam();
+		lstPr = readTestParam();
 		String[] inputs = input.split(";");
 		String output = "";
 		for (String i : inputs) {
-			if (i.contains("$")) {
-				for (TestParam pr : lstPr) {
-					if (pr.getName().equals(i.replace("$", ""))) {
-						output= output+ "\"" + pr.getValue() + "\",";
+			if(i!=inputs[inputs.length-1]) {
+				if (i.contains("$")) {
+					for (TestParam pr : lstPr) {
+						if (pr.getName().equals(i.replace("$", ""))) {
+							output= output+ "\"" + pr.getValue() + "\",";
+						}
 					}
+				} else {
+					output= output+ i +",";
 				}
-			} else {
-				output= output+ i +",";
+			}else {
+				if (i.contains("$")) {
+					for (TestParam pr : lstPr) {
+						if (pr.getName().equals(i.replace("$", ""))) {
+							output= output+ "\"" + pr.getValue() + "\"";
+						}
+					}
+				} else {
+					output= output+ i ;
+				}
 			}
 			
+			
 		}
-		output= output.substring(0, output.length()-1);
+		//output= output.substring(0, output.length()-1);
 		return output;
 	}
 
@@ -126,8 +144,7 @@ public class writer {
 				+ className(name, TestCase());
 		try {
 			// Whatever the file path is.
-			File statText = new File(System.getProperty("user.dir") + "/src/test/java/excute/TestCase.java");
-			System.out.println(System.getProperty("user.dir") + "/src/test/java/excute");
+			File statText = new File(System.getProperty("user.dir") + "/src/test/java/excute/"+name+".java");
 			FileOutputStream is = new FileOutputStream(statText);
 			OutputStreamWriter osw = new OutputStreamWriter(is);
 			Writer w = new BufferedWriter(osw);

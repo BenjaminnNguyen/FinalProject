@@ -9,13 +9,20 @@ import common.*;
 
 public class readExcel {
 
-	String path = System.getProperty("user.dir") + "/TESTSUITE/TS01.xlsx";
+	public String path = System.getProperty("user.dir") + "/TESTSUITE/TS01.xlsx";
 	String sheetTestcaseList = "ListTestcase";
 	String sheetDetail = "Detail";
 	String sheetObject = "Object";
 	String sheetParam = "Param";
 	ExcelUtils eu = new ExcelUtils(path);
+	
+	public readExcel(String filepath) {
+		this.path =filepath;
+		eu = new ExcelUtils(filepath);
+		
+	}
 
+	
 	public List<testCase1> readTestCase() throws Exception {
 		List<testCase1> lst = new ArrayList();
 		try {
@@ -35,7 +42,6 @@ public class readExcel {
 	public List<TestObject> readTestObject() throws Exception {
 		List<TestObject> lst = new ArrayList();
 		try {
-
 			eu.setExcelFile(path, sheetObject);
 			for (int i = 1; i < eu.getRowCount(sheetObject); i++) {
 				if(eu.getCellValue(i, 0).trim()!=""&&(eu.getCellValue(i, 1).trim()!=""||eu.getCellValue(i, 2).trim()!="")) {
@@ -114,7 +120,7 @@ public class readExcel {
 		for(TestObject to:lst) {
 			if(to.getName()==object) {
 				oj=to.getValue();
-			}
+			}else oj=object;
 		}
 		return oj;
 	}
@@ -124,7 +130,7 @@ public class readExcel {
 		for(TestParam to:lst) {
 			if(to.getName()==param) {
 				oj=to.getValue();
-			}
+			}else oj=param;
 		}
 		return oj;
 	}
