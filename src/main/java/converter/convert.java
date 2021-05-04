@@ -53,6 +53,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 public class convert extends JFrame {
 
@@ -90,8 +92,26 @@ public class convert extends JFrame {
 		final String fileNameString ="";
 		label.setBounds(20, 37, 300, 21);
 		contentPane.add(label);
-		
+		final JTextArea textArea = new JTextArea();
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(364, 10, 376, 345);
+		contentPane.add(scrollPane);
+		scrollPane.setViewportView(textArea);
+		textArea.setEditable(false);
+		final PrintStream printStream = new PrintStream(new CustomOutputStream(textArea));
+		System.setOut(printStream);
+		System.setErr(printStream);
 		final JList list = new JList();
+		
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				String selected = list.getSelectedValue().toString();
+				textArea.setText(selected);
+				
+				
+			}
+		});
+		
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setModel(new AbstractListModel() {
 			String[] values = listFilesForFolder(System.getProperty("user.dir") + "/TESTSUITE/");
@@ -162,16 +182,9 @@ public class convert extends JFrame {
 		button.setBounds(20, 299, 110, 30);
 		contentPane.add(button);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(364, 10, 376, 345);
-		contentPane.add(scrollPane);
+		
 
-		final JTextArea textArea = new JTextArea();
-		scrollPane.setViewportView(textArea);
-		textArea.setEditable(false);
-		final PrintStream printStream = new PrintStream(new CustomOutputStream(textArea));
-		System.setOut(printStream);
-		System.setErr(printStream);
+		
 		/*
 		 * Button Convert
 		 * 

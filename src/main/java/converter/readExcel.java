@@ -9,7 +9,7 @@ import common.*;
 
 public class readExcel {
 
-	public String path = System.getProperty("user.dir") + "/TESTSUITE/TS01.xlsx";
+	public String path = "";
 	String sheetTestcaseList = "ListTestcase";
 	String sheetDetail = "Detail";
 	String sheetObject = "Object";
@@ -29,7 +29,7 @@ public class readExcel {
 
 			eu.setExcelFile(path, sheetTestcaseList);
 			for (int i = 1; i < eu.getRowCount(sheetTestcaseList); i++) {
-				if (eu.getCellValue(i, 1).equals("Yes")) {
+				if (eu.getCellValue(i, 1).toUpperCase().trim().equals("YES")) {
 					lst.add(new testCase1(eu.getCellValue(i, 0), eu.getCellValue(i, 1)));
 				}
 			}

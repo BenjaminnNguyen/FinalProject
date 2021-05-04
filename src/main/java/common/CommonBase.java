@@ -166,11 +166,11 @@ public class CommonBase {
 	}
 
 	public void checkCycling(Exception e, int loopCountAllowed) {
-		System.out.print("Co exception xay ra: " + e.getClass().getName());
+		System.out.println("Co exception xay ra: " + e.getClass().getName());
 		if (loopCount > loopCountAllowed) {
 			Assert.fail("Qua thoi gian nhung khong thay hoac thay doi tuong " + e.getMessage());
 		}
-		System.out.print("Lap lai lan thu " + loopCount);
+		System.out.println("Lap lai lan thu " + loopCount);
 		loopCount++;
 	}
 

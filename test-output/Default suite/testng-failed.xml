@@ -5,7 +5,7 @@
     <classes>
       <class name="excute.TS03">
         <methods>
-          <include name="TC_01"/>
+          <include name="TC_02"/>
           <include name="beforeMethod"/>
           <include name="afterMethod"/>
         </methods>
