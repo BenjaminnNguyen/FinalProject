@@ -44,11 +44,6 @@ public class CommonBase {
 	protected int WAIT_INTERVAL = 1000;
 	public int loopCount = 0;
 	public final int ACTION_REPEAT = 5;
-
-//	public CommonBase(WebDriver driver) {
-//		this.driver = driver;
-//	}
-
 	public WebDriver openBrowser(String BrowserName, String url) {
 		try {
 		if (BrowserName == "FireFox") {
@@ -289,6 +284,31 @@ public class CommonBase {
 		}
 	}
 
+	public void clearText(Object object) {
+		WebElement element =getElement(object);
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		try {
+			// WebElement element = getElementPresent(locator, 10000, 0);
+			if (element != null) {
+				wait.until(ExpectedConditions.visibilityOf(element));
+				element.clear();
+			}
+		} catch (StaleElementReferenceException e) {
+			checkCycling(e, DEFAULT_TIMEOUT / WAIT_INTERVAL);
+			pause(WAIT_INTERVAL);
+			clearText(element);
+		} catch (NoSuchElementException e) {
+			checkCycling(e, DEFAULT_TIMEOUT / WAIT_INTERVAL);
+			pause(WAIT_INTERVAL);
+			clearText(element);
+		} catch (ElementNotVisibleException e) {
+			checkCycling(e, DEFAULT_TIMEOUT / WAIT_INTERVAL);
+			pause(WAIT_INTERVAL);
+			clearText(element);
+		} finally {
+			loopCount = 0;
+		}
+	}
 	/**
 	 * input data to element
 	 * 
