@@ -85,15 +85,14 @@ public class convert extends JFrame {
 		//System.setErr(printStream);
 		final JList list = new JList();
 		
-		list.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent arg0) {
-				list.setSelectedIndex(0);
-				String selected = list.getSelectedValue().toString();
-				textArea.setText(selected);
-				
-				
-			}
-		});
+//		list.addListSelectionListener(new ListSelectionListener() {
+//			public void valueChanged(ListSelectionEvent arg0) {
+//				list.setSelectedIndex(0);
+//				String selected = list.getSelectedValue().toString();
+//				textArea.setText(selected);
+//				
+//			}
+//		});
 		
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setModel(new AbstractListModel() {
@@ -105,8 +104,8 @@ public class convert extends JFrame {
 				return values[index];
 			}
 		});
-		list.setSelectedIndex(0);
-		list.setBounds(20, 64, 212, 220);
+		//list.setSelectedIndex(0);
+		list.setBounds(30, 64, 212, 220);
 		contentPane.add(list);
 		//scrollPane.setViewportView(list);
 		Button button = new Button("Upload file");
