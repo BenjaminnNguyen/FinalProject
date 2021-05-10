@@ -54,15 +54,6 @@ public class ExcelUtils {
 		return sheet;
 	}
 	
-//	public  void open() throws IOException{
-//		File file=new File(filepath);
-//		if(file.canRead()) {
-//			FileInputStream streamIn=new FileInputStream(file);
-//			workBook=new XSSFWorkbook(streamIn);
-//			streamIn.close();
-//		}
-//	}
-	
 	public void save()throws IOException{
 		FileOutputStream streamOut=new FileOutputStream(filepath);
 		workBook.write(streamOut);
@@ -257,20 +248,7 @@ public class ExcelUtils {
 		setCell(sheet, rowIndex, colIndex, value);
 	}
 	
-//	public double getCellNumber(XSSFSheet sheet, int rowIndex, int colIndex) {
-//		XSSFRow row=getRow(sheet, rowIndex);
-//		XSSFCell cell=getCell(row, colIndex);
-//		
-//		FormulaEvaluator evaluator=_workBook.getCreationHelper().createFormulaEvaluator();
-//		
-//		if(cell!=null) {
-//			switch(evaluator.evaluateInCell(cell).getCellType()) {
-//			case Cell.CELL_TYPE_STRING:
-//			}
-//		}
-//		return cell.getNumericCellValue();
-//	}
-	
+
 	public static List<List<XSSFCell>> createList(String sheetName) {
         // Create an ArrayList to store the data read from excel sheet.
         List<List<XSSFCell>> myList = new ArrayList<List<XSSFCell>>();
@@ -298,30 +276,6 @@ public class ExcelUtils {
         }
         return myList;
 	}
-	
-//	public static void setCellData(String Result, int RowNum, int ColNum, String SheetName) throws Exception {
-//		try {
-//			workSheet = workBook.getSheet(SheetName);
-//			row = workSheet.getRow(RowNum);
-//			cell = row.getCell(ColNum);
-//			if (cell == null) {
-//				cell = row.createCell(ColNum);
-//				cell.setCellValue(Result);
-//			} else {
-//				cell.setCellValue(Result);
-//			}
-//			// Constant variables Test Data path and Test Data file name
-//			FileOutputStream fileOut = new FileOutputStream(Constants.Path_TestData);
-//			workBook.write(fileOut);
-//			// fileOut.flush();
-//			fileOut.close();
-//			workBook = new XSSFWorkbook(new FileInputStream(Constants.Path_TestData));
-//		} catch (Exception e) {
-//			
-//			//ExecuteTestScript_BMI.bResult = false;
-//		}
-//	} 
-//	
 
 }
 

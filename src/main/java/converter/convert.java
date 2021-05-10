@@ -108,7 +108,7 @@ public class convert extends JFrame {
 		list.setSelectedIndex(0);
 		list.setBounds(20, 64, 212, 220);
 		contentPane.add(list);
-		
+		//scrollPane.setViewportView(list);
 		Button button = new Button("Upload file");
 		button.addMouseListener(new MouseAdapter() {
 			@Override

@@ -1,106 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="1" ignored="0" total="2" passed="1">
+<testng-results ignored="0" total="8" passed="8" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite name="Suite" duration-ms="42447" started-at="2021-05-04T16:29:14 ICT" finished-at="2021-05-04T16:29:57 ICT">
+  <suite started-at="2021-05-10T00:14:37 ICT" name="Default suite" finished-at="2021-05-10T00:16:10 ICT" duration-ms="93747">
     <groups>
     </groups>
-    <test name="Test" duration-ms="42447" started-at="2021-05-04T16:29:14 ICT" finished-at="2021-05-04T16:29:57 ICT">
+    <test started-at="2021-05-10T00:14:37 ICT" name="Default test" finished-at="2021-05-10T00:16:10 ICT" duration-ms="93747">
       <class name="excute.TS03">
-        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:excute.TS03@63440df3]" name="beforeMethod" is-config="true" duration-ms="9975" started-at="2021-05-04T16:29:14 ICT" finished-at="2021-05-04T16:29:24 ICT">
+        <test-method is-config="true" signature="beforeMethod()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:14:37 ICT" name="beforeMethod" finished-at="2021-05-10T00:14:49 ICT" duration-ms="12144" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- beforeMethod -->
-        <test-method status="PASS" signature="TC_01()[pri:0, instance:excute.TS03@63440df3]" name="TC_01" duration-ms="8274" started-at="2021-05-04T16:29:24 ICT" finished-at="2021-05-04T16:29:33 ICT">
+        <test-method signature="TC_01_DangKyThanhCong()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:14:49 ICT" name="TC_01_DangKyThanhCong" finished-at="2021-05-10T00:14:49 ICT" duration-ms="7" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- TC_01 -->
-        <test-method status="PASS" signature="afterMethod()[pri:0, instance:excute.TS03@63440df3]" name="afterMethod" is-config="true" duration-ms="338" started-at="2021-05-04T16:29:33 ICT" finished-at="2021-05-04T16:29:33 ICT">
+        </test-method> <!-- TC_01_DangKyThanhCong -->
+        <test-method is-config="true" signature="afterMethod()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:14:49 ICT" name="afterMethod" finished-at="2021-05-10T00:14:50 ICT" duration-ms="721" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- afterMethod -->
-        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:excute.TS03@63440df3]" name="beforeMethod" is-config="true" duration-ms="12366" started-at="2021-05-04T16:29:33 ICT" finished-at="2021-05-04T16:29:45 ICT">
+        <test-method is-config="true" signature="beforeMethod()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:14:50 ICT" name="beforeMethod" finished-at="2021-05-10T00:15:17 ICT" duration-ms="27111" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- beforeMethod -->
-        <test-method status="FAIL" signature="TC_02()[pri:0, instance:excute.TS03@63440df3]" name="TC_02" duration-ms="11213" started-at="2021-05-04T16:29:45 ICT" finished-at="2021-05-04T16:29:57 ICT">
-          <exception class="java.lang.AssertionError">
-            <message>
-              <![CDATA[Qua thoi gian nhung khong thay hoac thay doi tuong no such element: Unable to locate element: {"method":"xpath","selector":"//button/*[text()='Lập hóa đơn']"}
-  (Session info: chrome=90.0.4430.93)
-For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
-Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
-System info: host: 'Sotateks-MacBook-Pro.local', ip: 'fe80:0:0:0:8b5:40df:8a56:1d1f%en0', os.name: 'Mac OS X', os.arch: 'x86_64', os.version: '10.16', java.version: '1.8.0_291'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 90.0.4430.93, chrome: {chromedriverVersion: 90.0.4430.24 (4c6d850f087da..., userDataDir: /var/folders/m6/4rkbky096n1...}, goog:chromeOptions: {debuggerAddress: localhost:61262}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: MAC, platformName: MAC, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
-Session ID: 9709643f97a850156af70b75076b4bee
-*** Element info: {Using=xpath, value=//button/*[text()='Lập hóa đơn']}]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[java.lang.AssertionError: Qua thoi gian nhung khong thay hoac thay doi tuong no such element: Unable to locate element: {"method":"xpath","selector":"//button/*[text()='Lập hóa đơn']"}
-  (Session info: chrome=90.0.4430.93)
-For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
-Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
-System info: host: 'Sotateks-MacBook-Pro.local', ip: 'fe80:0:0:0:8b5:40df:8a56:1d1f%en0', os.name: 'Mac OS X', os.arch: 'x86_64', os.version: '10.16', java.version: '1.8.0_291'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 90.0.4430.93, chrome: {chromedriverVersion: 90.0.4430.24 (4c6d850f087da..., userDataDir: /var/folders/m6/4rkbky096n1...}, goog:chromeOptions: {debuggerAddress: localhost:61262}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: MAC, platformName: MAC, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
-Session ID: 9709643f97a850156af70b75076b4bee
-*** Element info: {Using=xpath, value=//button/*[text()='Lập hóa đơn']}
-at org.testng.Assert.fail(Assert.java:99)
-at common.CommonBase.checkCycling(CommonBase.java:171)
-at common.CommonBase.getElement(CommonBase.java:157)
-at common.CommonBase.getElement(CommonBase.java:159)
-at common.CommonBase.getElement(CommonBase.java:159)
-at common.CommonBase.getElement(CommonBase.java:159)
-at common.CommonBase.getElement(CommonBase.java:159)
-at common.CommonBase.getElement(CommonBase.java:159)
-at common.CommonBase.getElement(CommonBase.java:159)
-at common.CommonBase.getElement(CommonBase.java:159)
-at common.CommonBase.getElement(CommonBase.java:159)
-at common.CommonBase.getElement(CommonBase.java:159)
-at common.CommonBase.getElement(CommonBase.java:159)
-at common.CommonBase.getElement(CommonBase.java:159)
-at common.CommonBase.click(CommonBase.java:408)
-at excute.TS03.TC_02(TS03.java:52)
-at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-at java.lang.reflect.Method.invoke(Method.java:498)
-at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:132)
-at org.testng.internal.TestInvoker.invokeMethod(TestInvoker.java:599)
-at org.testng.internal.TestInvoker.invokeTestMethod(TestInvoker.java:174)
-at org.testng.internal.MethodRunner.runInSequence(MethodRunner.java:46)
-at org.testng.internal.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:822)
-at org.testng.internal.TestInvoker.invokeTestMethods(TestInvoker.java:147)
-at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
-at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:128)
-at java.util.ArrayList.forEach(ArrayList.java:1259)
-at org.testng.TestRunner.privateRun(TestRunner.java:764)
-at org.testng.TestRunner.run(TestRunner.java:585)
-at org.testng.SuiteRunner.runTest(SuiteRunner.java:384)
-at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:378)
-at org.testng.SuiteRunner.privateRun(SuiteRunner.java:337)
-at org.testng.SuiteRunner.run(SuiteRunner.java:286)
-at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
-at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96)
-at org.testng.TestNG.runSuitesSequentially(TestNG.java:1218)
-at org.testng.TestNG.runSuitesLocally(TestNG.java:1140)
-at org.testng.TestNG.runSuites(TestNG.java:1069)
-at org.testng.TestNG.run(TestNG.java:1037)
-at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
-at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
-at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
-]]>
-            </full-stacktrace>
-          </exception> <!-- java.lang.AssertionError -->
+        <test-method signature="TC_02_DangKyKhongThanhCong_BoTrongAll()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:15:17 ICT" name="TC_02_DangKyKhongThanhCong_BoTrongAll" finished-at="2021-05-10T00:15:17 ICT" duration-ms="2" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- TC_02 -->
-        <test-method status="PASS" signature="afterMethod()[pri:0, instance:excute.TS03@63440df3]" name="afterMethod" is-config="true" duration-ms="217" started-at="2021-05-04T16:29:57 ICT" finished-at="2021-05-04T16:29:57 ICT">
+        </test-method> <!-- TC_02_DangKyKhongThanhCong_BoTrongAll -->
+        <test-method is-config="true" signature="afterMethod()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:15:17 ICT" name="afterMethod" finished-at="2021-05-10T00:15:17 ICT" duration-ms="747" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method is-config="true" signature="beforeMethod()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:15:17 ICT" name="beforeMethod" finished-at="2021-05-10T00:15:24 ICT" duration-ms="6682" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method signature="TC_03_DangKyKhongThanhCong_BoTrongTruongDL()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:15:24 ICT" name="TC_03_DangKyKhongThanhCong_BoTrongTruongDL" finished-at="2021-05-10T00:15:24 ICT" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TC_03_DangKyKhongThanhCong_BoTrongTruongDL -->
+        <test-method is-config="true" signature="afterMethod()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:15:24 ICT" name="afterMethod" finished-at="2021-05-10T00:15:25 ICT" duration-ms="747" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method is-config="true" signature="beforeMethod()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:15:25 ICT" name="beforeMethod" finished-at="2021-05-10T00:15:33 ICT" duration-ms="8574" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method signature="TC_04_DangKyKhongThanhCong_TrungEmail()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:15:33 ICT" name="TC_04_DangKyKhongThanhCong_TrungEmail" finished-at="2021-05-10T00:15:33 ICT" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TC_04_DangKyKhongThanhCong_TrungEmail -->
+        <test-method is-config="true" signature="afterMethod()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:15:33 ICT" name="afterMethod" finished-at="2021-05-10T00:15:34 ICT" duration-ms="777" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method is-config="true" signature="beforeMethod()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:15:34 ICT" name="beforeMethod" finished-at="2021-05-10T00:15:48 ICT" duration-ms="13606" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method signature="TC_05_DangKyKhongThanhCong_TrungUserName()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:15:48 ICT" name="TC_05_DangKyKhongThanhCong_TrungUserName" finished-at="2021-05-10T00:15:48 ICT" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TC_05_DangKyKhongThanhCong_TrungUserName -->
+        <test-method is-config="true" signature="afterMethod()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:15:48 ICT" name="afterMethod" finished-at="2021-05-10T00:15:49 ICT" duration-ms="702" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method is-config="true" signature="beforeMethod()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:15:49 ICT" name="beforeMethod" finished-at="2021-05-10T00:15:55 ICT" duration-ms="6449" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method signature="TC_06_DangKyKhongThanhCong_SaiEmail()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:15:55 ICT" name="TC_06_DangKyKhongThanhCong_SaiEmail" finished-at="2021-05-10T00:15:55 ICT" duration-ms="2" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TC_06_DangKyKhongThanhCong_SaiEmail -->
+        <test-method is-config="true" signature="afterMethod()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:15:55 ICT" name="afterMethod" finished-at="2021-05-10T00:15:56 ICT" duration-ms="726" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method is-config="true" signature="beforeMethod()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:15:56 ICT" name="beforeMethod" finished-at="2021-05-10T00:16:02 ICT" duration-ms="6243" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method signature="TC_07_DangKy_DaCoTaiKhoan_DangNhap()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:16:02 ICT" name="TC_07_DangKy_DaCoTaiKhoan_DangNhap" finished-at="2021-05-10T00:16:02 ICT" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TC_07_DangKy_DaCoTaiKhoan_DangNhap -->
+        <test-method is-config="true" signature="afterMethod()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:16:02 ICT" name="afterMethod" finished-at="2021-05-10T00:16:03 ICT" duration-ms="715" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method is-config="true" signature="beforeMethod()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:16:03 ICT" name="beforeMethod" finished-at="2021-05-10T00:16:10 ICT" duration-ms="7018" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method signature="TC_08_DangKy_QuenMatKhau()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:16:10 ICT" name="TC_08_DangKy_QuenMatKhau" finished-at="2021-05-10T00:16:10 ICT" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TC_08_DangKy_QuenMatKhau -->
+        <test-method is-config="true" signature="afterMethod()[pri:0, instance:excute.TS03@543588e6]" started-at="2021-05-10T00:16:10 ICT" name="afterMethod" finished-at="2021-05-10T00:16:10 ICT" duration-ms="731" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- afterMethod -->
       </class> <!-- excute.TS03 -->
-    </test> <!-- Test -->
-  </suite> <!-- Suite -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
 </testng-results>
