@@ -1,9 +1,5 @@
 package excute;
-import org.testng.annotations.Test;
 import common.CommonBase;
-
-import java.lang.reflect.Method;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.*;
@@ -19,29 +15,6 @@ public final class TS03 extends CommonBase {
 		quitDriver(driver);}
 	@Test
 	public void TC_01() {
-//		String className = this.getClass().getSimpleName();
-//		String name = new Object(){}.getClass().getEnclosingMethod().getName();
-//		System.out.println(className);
-//		System.out.println(name);
-//		
-//		try {
-//            Class thisClass = TS03.class;
-//            Method[] methods = thisClass.getDeclaredMethods();
-//
-//            for (int i = 0; i < methods.length; i++) {
-//                System.out.println(methods[i].toString());
-//            }
-//        } catch (Throwable e) {
-//            System.err.println(e);
-//        }
-		Method[] methods = TS03.class.getDeclaredMethods();
-		//
-		for (Method method : methods) {
-			  
-            String MethodName = method.getName();
-            System.out.println(MethodName);
-        }
-		
 		waitForPageLoaded(driver);
 		setText(By.id("Term"),"Dac Nhan Tam");
 		click(By.xpath("//input[@id='Term']//following-sibling::div[@class='input-group-btn']/button[@class='search button-search']"));
