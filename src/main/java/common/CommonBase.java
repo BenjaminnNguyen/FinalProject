@@ -45,40 +45,37 @@ public class CommonBase {
 	public int loopCount = 0;
 	public final int ACTION_REPEAT = 5;
 
-//	public CommonBase(WebDriver driver) {
-//		this.driver = driver;
-//	}
-
 	public WebDriver openBrowser(String BrowserName, String url) {
 		try {
-		if (BrowserName == "FireFox") {
-			//System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/DRIVER/geckodriver.exe");
-			WebDriverManager.firefoxdriver().setup();
-			driver = new FirefoxDriver();
-			driver.get(url);
-		} else if (BrowserName == "Chrome") {
+			if (BrowserName == "FireFox") {
+				// System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") +
+				// "/DRIVER/geckodriver.exe");
+				WebDriverManager.firefoxdriver().setup();
+				driver = new FirefoxDriver();
+				driver.get(url);
+			} else if (BrowserName == "Chrome") {
 //			System.setProperty("webdriver.chrome.driver",
 //					System.getProperty("user.dir") + "/DRIVER/chromedriver.exe");
-			WebDriverManager.chromedriver().setup();
-			driver = new ChromeDriver();
-			driver.get(url);
-		} else if (BrowserName == "IE") {
-			WebDriverManager.iedriver().setup();
-		//	System.setProperty("webdriver.ie.driver", System.getProperty("user.dir") + "/DRIVER/IEDriverServer.exe");
-			driver = new InternetExplorerDriver();
-			driver.get(url);
-		}else if (BrowserName == "Opera") {
-			WebDriverManager.operadriver().setup();
-			driver = new InternetExplorerDriver();
-			driver.get(url);
-		}
-		else {
-			WebDriverManager.chromedriver().setup();
-			driver = new ChromeDriver();
-			driver.get(url);
-		}
-		
-		}catch (Exception e) {
+				WebDriverManager.chromedriver().setup();
+				driver = new ChromeDriver();
+				driver.get(url);
+			} else if (BrowserName == "IE") {
+				WebDriverManager.iedriver().setup();
+				// System.setProperty("webdriver.ie.driver", System.getProperty("user.dir") +
+				// "/DRIVER/IEDriverServer.exe");
+				driver = new InternetExplorerDriver();
+				driver.get(url);
+			} else if (BrowserName == "Opera") {
+				WebDriverManager.operadriver().setup();
+				driver = new InternetExplorerDriver();
+				driver.get(url);
+			} else {
+				WebDriverManager.chromedriver().setup();
+				driver = new ChromeDriver();
+				driver.get(url);
+			}
+
+		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
@@ -289,6 +286,44 @@ public class CommonBase {
 		}
 	}
 
+	public void back() {
+		pause(1000);
+		driver.navigate().back();
+	}
+
+	public void verifyEmpty(Object object) {
+		WebElement element = getElement(object);
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		wait.until(ExpectedConditions.visibilityOf(element));
+		Assert.assertEquals(element.getAttribute("value").toString().trim(),"");
+
+	}
+	public void clearText(Object object) {
+		WebElement element = getElement(object);
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		try {
+			// WebElement element = getElementPresent(locator, 10000, 0);
+			if (element != null) {
+				wait.until(ExpectedConditions.visibilityOf(element));
+				element.clear();
+			}
+		} catch (StaleElementReferenceException e) {
+			checkCycling(e, DEFAULT_TIMEOUT / WAIT_INTERVAL);
+			pause(WAIT_INTERVAL);
+			clearText(element);
+		} catch (NoSuchElementException e) {
+			checkCycling(e, DEFAULT_TIMEOUT / WAIT_INTERVAL);
+			pause(WAIT_INTERVAL);
+			clearText(element);
+		} catch (ElementNotVisibleException e) {
+			checkCycling(e, DEFAULT_TIMEOUT / WAIT_INTERVAL);
+			pause(WAIT_INTERVAL);
+			clearText(element);
+		} finally {
+			loopCount = 0;
+		}
+	}
+
 	/**
 	 * input data to element
 	 * 
@@ -297,7 +332,7 @@ public class CommonBase {
 	 * @param validate
 	 */
 	public void setText(Object object, String value) {
-		WebElement element =getElement(object);
+		WebElement element = getElement(object);
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		try {
 			// WebElement element = getElementPresent(locator, 10000, 0);
@@ -405,7 +440,7 @@ public class CommonBase {
 	 */
 	public void click(Object locator, Object... opParams) {
 		int notDisplay = (Integer) (opParams.length > 0 ? opParams[0] : 0);
-		WebElement element=getElement(locator);
+		WebElement element = getElement(locator);
 		Actions actions = new Actions(driver);
 		try {
 			if (element.isEnabled()) {

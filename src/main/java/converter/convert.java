@@ -8,19 +8,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JOptionPane;
 
-import javax.swing.ListModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.commons.io.FilenameUtils;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
-
+//import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import com.google.common.io.Files;
-
 import common.TestDetail;
-import common.TestObject;
-import common.TestParam;
-import common.testCase1;
 
 import java.awt.Button;
 import java.awt.Color;
@@ -30,28 +24,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.Console;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintStream;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.TextArea;
 
-import converter.writer;
-import javax.swing.JMenuItem;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
-import javax.swing.DefaultListModel;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
 import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
@@ -98,13 +80,14 @@ public class convert extends JFrame {
 		contentPane.add(scrollPane);
 		scrollPane.setViewportView(textArea);
 		textArea.setEditable(false);
-		final PrintStream printStream = new PrintStream(new CustomOutputStream(textArea));
-		System.setOut(printStream);
-		System.setErr(printStream);
+		//final PrintStream printStream = new PrintStream(new CustomOutputStream(textArea));
+		//System.setOut(printStream);
+		//System.setErr(printStream);
 		final JList list = new JList();
 		
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent arg0) {
+				list.setSelectedIndex(0);
 				String selected = list.getSelectedValue().toString();
 				textArea.setText(selected);
 				
@@ -224,8 +207,8 @@ public class convert extends JFrame {
 //				PrintStream ps = new PrintStream(baos);
 //				PrintStream abc = System.out;
 //				String aString = ps.toString();
-				textArea.append(printStream.toString());
-
+				
+				///GHi LOG
 				//textArea.append(printStream.toString());
 
 				//textArea.setText(textArea.getText() + String.valueOf((char)paramInt));
