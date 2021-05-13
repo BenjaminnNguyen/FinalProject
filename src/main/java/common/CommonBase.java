@@ -41,7 +41,7 @@ import io.restassured.response.Response;
 
 public class CommonBase {
 	public WebDriver driver;
-	protected int DEFAULT_TIMEOUT = 60000;
+	protected int DEFAULT_TIMEOUT = 30000;
 	protected int WAIT_INTERVAL = 1000;
 	public int loopCount = 0;
 	public final int ACTION_REPEAT = 5;
@@ -94,12 +94,12 @@ public class CommonBase {
 	 * 
 	 * @param dr
 	 */
-	public void quitDriver(WebDriver dr) {
-		if (dr.toString().contains("null")) {
+	public void quitDriver() {
+		if (driver.toString().contains("null")) {
 			System.out.print("All Browser windows are closed ");
 		} else {
 			driver.manage().deleteAllCookies();
-			dr.quit();
+			driver.quit();
 		}
 	}
 
@@ -195,7 +195,7 @@ public class CommonBase {
 		if (isAssert == 1) {
 			info("date");
 			assert false : ("Qua thoi gian " + timeout + "ma khong tim thay doi tuong " + locator);
-			quitDriver(driver);
+			quitDriver();
 		}
 		return null;
 	}
@@ -333,7 +333,8 @@ public class CommonBase {
 	 * @param validate
 	 */
 	public void setText(Object object, String value) {
-		WebElement element = getElement(object);
+		//WebElement element = getElement(object);
+		WebElement element = getElementPresent(object, 30000);
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		try {
 			// WebElement element = getElementPresent(locator, 10000, 0);

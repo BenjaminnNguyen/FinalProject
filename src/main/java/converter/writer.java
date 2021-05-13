@@ -48,17 +48,23 @@ public class writer extends readExcel{
 				}
 			}
 				if(a.getOutput()!=null && a.getOutput()!="") {
+					
 					sample = sample + "\n\t\t" + "String " + a.getOutput() + "=" + a.getScript() + "(";
-					if(a.getObject()!=""&& a.getObject() != null){
+					if(a.getObject().trim()!=""&& a.getObject().trim() != null&&a.getInput().trim()!=""){
 						sample=sample+getObject(lstOj, a.getObject())+ ",";
-					}if(a.getInput()!=""&& a.getInput() != null){
+					}
+					if(a.getObject().trim()!=""&& a.getObject().trim() != null&&(a.getInput().trim()==""||a.getInput().trim()==null)) {
+						sample=sample+getObject(lstOj, a.getObject());
+					}
+					if(a.getInput()!=""&& a.getInput() != null){
 						sample=sample+getInput(lstPr, a.getInput());
-					}else
+					}
+					else
 	                {						
-						sample= sample.substring(0, sample.length()-1);
+						//sample= sample.substring(0, sample.length()-1);
 	                }
-				}else {
-					sample = sample + "\n\t\t" + a.getScript() + "(";
+				}else if(a.getScript().trim()!=""&&a.getScript().trim()!=null){
+					  sample = sample + "\n\t\t" + a.getScript() + "(";
 		              if (a.getObject() != "" && a.getObject() != null) {
 		            	  sample = sample + getObject(lstOj, a.getObject()) + ",";
 		              }
@@ -68,8 +74,9 @@ public class writer extends readExcel{
 							sample= sample.substring(0, sample.length()-1);
 		              }
 				}
+				if(a.getScript().trim()!=""&&a.getScript().trim()!=null) {
 				sample =sample+");";
-				
+				}
 			}
 			
 		return sample = sample + "\n}";
