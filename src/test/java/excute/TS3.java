@@ -29,4 +29,5 @@ public final class TS3 extends CommonBase {
 		setText(By.xpath("//input[contains(@formcontrolname,'buyerName')]"),"Viettel");
 		setText(By.xpath("//input[contains(@formcontrolname,'buyerName')]"),"Viettel");
 }
+	
 }

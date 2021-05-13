@@ -23,14 +23,14 @@ public class readExcel {
 	}
 
 	
-	public List<testCase1> readTestCase() throws Exception {
-		List<testCase1> lst = new ArrayList();
+	public List<TestCase> readTestCase() throws Exception {
+		List<TestCase> lst = new ArrayList();
 		try {
 
 			eu.setExcelFile(path, sheetTestcaseList);
 			for (int i = 1; i < eu.getRowCount(sheetTestcaseList); i++) {
 				if (eu.getCellValue(i, 1).toUpperCase().trim().equals("YES")) {
-					lst.add(new testCase1(eu.getCellValue(i, 0), eu.getCellValue(i, 1)));
+					lst.add(new TestCase(eu.getCellValue(i, 0), eu.getCellValue(i, 1)));
 				}
 			}
 		} catch (IOException e) {
@@ -80,7 +80,7 @@ public class readExcel {
 	///
 	/// if row(i)!="" -> getIndex ->read from index to nextIndex;
 	public List<TestDetail> readDetail() throws Exception {
-		List<testCase1> lstTC = new ArrayList();
+		List<TestCase> lstTC = new ArrayList();
 		List<TestDetail> lst = new ArrayList();
 		eu.setExcelFile(path, sheetDetail);
 		int flag = 0;
@@ -91,7 +91,7 @@ public class readExcel {
 				if (eu.getCellValue(index, 0).trim() != "") {
 					// System.out.println(eu.getCellValue(index, 0));
 					flag = 0;
-					for (testCase1 a : lstTC) {
+					for (TestCase a : lstTC) {
 						if (a.name.equals(eu.getCellValue(index, 0))||eu.getCellValue(index, 0).toUpperCase().equals("INIT")||eu.getCellValue(index, 0).toUpperCase().equals("AFTER")) {
 							flag = 1;
 							break;
