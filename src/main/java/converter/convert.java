@@ -14,7 +14,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.commons.io.FilenameUtils;
 //import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import com.google.common.io.Files;
-import common.TestDetail;
+
+import model.TestDetail;
 
 import java.awt.Button;
 import java.awt.Color;

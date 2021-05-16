@@ -7,7 +7,8 @@
         <methods>
           <include name="afterMethod"/>
           <include name="beforeMethod"/>
-          <include name="TC_01_DangNhapThanhCong"/>
+          <include name="TC_06_DangNhapVoiFacebook"/>
+          <include name="TC_05_DangNhapVoiGoogle"/>
         </methods>
       </class> <!-- excute.TS_DangNhap -->
     </classes>

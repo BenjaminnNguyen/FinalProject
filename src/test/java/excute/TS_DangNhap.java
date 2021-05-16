@@ -8,7 +8,7 @@ import org.testng.annotations.*;
 public final class TS_DangNhap extends CommonBase { 
 	@BeforeMethod 
 	public void beforeMethod() { 
-		openBrowser("horme","http://113.160.133.144:20201/Admin/Login/Index/");
+		openBrowser("chorme","http://113.160.133.144:20201/Admin/Login/Index/");
 		waitForPageLoaded(driver);}
 	@AfterMethod
 	public void afterMethod() {
@@ -31,49 +31,49 @@ public final class TS_DangNhap extends CommonBase {
 		clearText(By.id("PassWord"));
 		click(By.xpath("//button[@type='submit']"));
 		waitForPageLoaded(driver);
-		String popUpFail=getText(By.xpath("//*[contains(@class,'lable-fail')]"));
-		verifyCompare(popUpFail,"Vui lòng nhập Tên đăng nhập và mật khẩu");}
+		String popUpFail=getText(By.xpath("//div[@class='validation-summary-errors text-danger']//li"));
+		verifyCompare(popUpFail,"Enter a valid username!");}
 	@Test
 	public void TC_03_DangNhapKhongThanhCong_BoTrongTruongDL() {
 		clearText(By.id("UserName"));
 		setText(By.id("PassWord"),"manh123");
 		click(By.xpath("//button[@type='submit']"));
 		waitForPageLoaded(driver);
-		String popUpFail=getText(By.xpath("//*[contains(@class,'lable-fail')]"));
-		verifyCompare(popUpFail,"Vui lòng nhập Tên đăng nhập và mật khẩu");
+		String popUpFail=getText(By.xpath("//div[@class='validation-summary-errors text-danger']//li"));
+		verifyCompare(popUpFail,"Enter a valid username!");
 		setText(By.id("UserName"),"manh");
 		clearText(By.id("PassWord"));
 		click(By.xpath("//button[@type='submit']"));
 		waitForPageLoaded(driver);
-		String popUpFail2=getText(By.xpath("//*[contains(@class,'lable-fail')]"));
-		verifyCompare(popUpFail2,"Vui lòng nhập Tên đăng nhập và mật khẩu");}
+		String popUpFail2=getText(By.xpath("//div[@class='validation-summary-errors text-danger']//li"));
+		verifyCompare(popUpFail2,"Enter a valid password!");}
 	@Test
 	public void TC_04_DangNhapKhongThanhCong() {
 		waitForPageLoaded(driver);
 		setText(By.id("UserName"),"bao bao");
-		setText(By.id("PassWord"),"baobao");
+		setText(By.id("PassWord"),"manh123");
 		click(By.xpath("//button[@type='submit']"));
 		waitForPageLoaded(driver);
-		String popUpFail1=getText(By.xpath("//*[contains(@class,'lable-fail')]"));
-		verifyCompare(popUpFail1,"Tên đăng nhập");
-		setText(By.id("UserName"),"bao123");
+		String popUpFail1=getText(By.xpath("//div[@class='validation-summary-errors text-danger']//li"));
+		verifyCompare(popUpFail1,"Tài khoản không tồn tại!");
+		setText(By.id("UserName"),"manh");
 		setText(By.id("PassWord"),"b");
 		click(By.xpath("//button[@type='submit']"));
 		waitForPageLoaded(driver);
-		String popUpFail2=getText(By.xpath("//*[contains(@class,'lable-fail')]"));
-		verifyCompare(popUpFail2,"Tên đăng nhập");
+		String popUpFail2=getText(By.xpath("//div[@class='validation-summary-errors text-danger']//li"));
+		verifyCompare(popUpFail2,"Mật khẩu không khớp!");
 		setText(By.id("UserName"),"bao bao");
 		setText(By.id("PassWord"),"b");
 		click(By.xpath("//button[@type='submit']"));
 		waitForPageLoaded(driver);
-		String popUpFail3=getText(By.xpath("//*[contains(@class,'lable-fail')]"));
-		verifyCompare(popUpFail3,"Tên đăng nhập");}
+		String popUpFail3=getText(By.xpath("//div[@class='validation-summary-errors text-danger']//li"));
+		verifyCompare(popUpFail3,"Tài khoản không tồn tại!");}
 	@Test
 	public void TC_05_DangNhapVoiGoogle() {
 		waitForPageLoaded(driver);
 		setText(By.id("UserName"),"manh");
 		setText(By.id("PassWord"),"manh123");
-		click(By.id("logingoogle"));
+		click(By.xpath("//*[@class='btn btn-google btn-user btn-block']"));
 		waitForPageLoaded(driver);
 		String titleGooglePage=getTitle();
 		verifyCompare(titleGooglePage,"Google");
@@ -85,7 +85,7 @@ public final class TS_DangNhap extends CommonBase {
 		waitForPageLoaded(driver);
 		setText(By.id("UserName"),"manh");
 		setText(By.id("PassWord"),"manh123");
-		click(By.id("loginfacebook"));
+		click(By.xpath("//*[@class='btn btn-facebook btn-user btn-block']"));
 		waitForPageLoaded(driver);
 		String titleFacebookPage=getTitle();
 		verifyCompare(titleFacebookPage,"Facebook");
@@ -97,10 +97,10 @@ public final class TS_DangNhap extends CommonBase {
 		waitForPageLoaded(driver);
 		setText(By.id("UserName"),"manh");
 		setText(By.id("PassWord"),"manh123");
-		click(By.id("forgotpassword"));
+		click(By.xpath("//*[contains(text(),'Forgot Password?')]"));
 		waitForPageLoaded(driver);
 		String titleForgotPassword=getTitle();
-		verifyCompare(titleForgotPassword,"Forgot password");
+		verifyCompare(titleForgotPassword,"Forgot Password");
 		back(driver);
 		waitForPageLoaded(driver);
 		verifyEmpty(By.id("PassWord"));

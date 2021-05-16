@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import converter.*;
+import model.TestCase;
+import model.TestDetail;
+import model.TestObject;
+import model.TestParam;
 import common.*;
 
 public class readExcel {

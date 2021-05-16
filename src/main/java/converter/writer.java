@@ -10,17 +10,17 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.TestDetail;
-import common.TestObject;
-import common.TestParam;
+import model.TestDetail;
+import model.TestObject;
+import model.TestParam;
 
-public class writer extends readExcel{
+public class writer extends readExcel {
 	public writer(String filepath) {
 		super(filepath);
 		// TODO Auto-generated constructor stub
 	}
 
-	//readExcel re = new readExcel();
+	// readExcel re = new readExcel();
 
 	public String TestCase() throws Exception {
 		String name = "";
@@ -37,51 +37,53 @@ public class writer extends readExcel{
 		for (TestDetail a : lst) {
 			if (a.getTestCase() != "" && a.getTestCase() != null) {
 				name = a.getTestCase();
-				if(name.toUpperCase().equals("INIT")) {
+				if (name.toUpperCase().equals("INIT")) {
 					sample = sample + "\t@BeforeMethod \n" + "\tpublic void beforeMethod() { ";
 				}
-				if(a.getTestCase().toUpperCase().equals("AFTER")) {
+				if (a.getTestCase().toUpperCase().equals("AFTER")) {
 					sample = sample + "}" + "\n\t@AfterMethod" + "\n\tpublic void afterMethod() {";
 				}
-				if(!a.getTestCase().toUpperCase().equals("INIT")&&!a.getTestCase().toUpperCase().equals("AFTER")) {
+				if (!a.getTestCase().toUpperCase().equals("INIT") && !a.getTestCase().toUpperCase().equals("AFTER")) {
 					sample = sample + "}" + "\n\t@Test" + "\n\tpublic void " + name + "() {";
 				}
 			}
-				if(a.getOutput()!=null && a.getOutput()!="") {
-					
+			if (a.getScript().trim() != "" && a.getScript().trim() != null) {
+				if (a.getOutput().trim() != null && a.getOutput().trim() != "" && !a.getOutput().trim().equals("")) {
 					sample = sample + "\n\t\t" + "String " + a.getOutput() + "=" + a.getScript() + "(";
-					if(a.getObject().trim()!=""&& a.getObject().trim() != null&&a.getInput().trim()!=""){
-						sample=sample+getObject(lstOj, a.getObject())+ ",";
+					if (a.getObject().trim() != "" && a.getObject().trim() != null && a.getInput().trim() != "") {
+						sample = sample + getObject(lstOj, a.getObject()) + "," + getInput(lstPr, a.getInput()) + ");";
 					}
-					if(a.getObject().trim()!=""&& a.getObject().trim() != null&&(a.getInput().trim()==""||a.getInput().trim()==null)) {
-						sample=sample+getObject(lstOj, a.getObject());
+					if (a.getObject().trim() != "" && a.getObject().trim() != null
+							&& (a.getInput().trim() == "" || a.getInput().trim() == null)) {
+						sample = sample + getObject(lstOj, a.getObject()) + ");";
 					}
-					if(a.getInput()!=""&& a.getInput() != null){
-						sample=sample+getInput(lstPr, a.getInput());
+					if (a.getObject().trim().equals("") && a.getInput().trim().equals("")) {
+						sample = sample + ");";
 					}
-					else
-	                {						
-						//sample= sample.substring(0, sample.length()-1);
-	                }
-				}else if(a.getScript().trim()!=""&&a.getScript().trim()!=null){
-					  sample = sample + "\n\t\t" + a.getScript() + "(";
-		              if (a.getObject() != "" && a.getObject() != null) {
-		            	  sample = sample + getObject(lstOj, a.getObject()) + ",";
-		              }
-		              if (a.getInput() != "" && a.getInput() != null) {
-		            	  sample = sample + getInput(lstPr, a.getInput());
-		              } else {
-							sample= sample.substring(0, sample.length()-1);
-		              }
-				}
-				if(a.getScript().trim()!=""&&a.getScript().trim()!=null) {
-				sample =sample+");";
+				} else {
+					sample = sample + "\n\t\t" + a.getScript() + "(";
+					if (a.getObject() != "" && a.getObject() != null) {
+						if (a.getInput() != "" && a.getInput() != null) {
+							sample = sample + getObject(lstOj, a.getObject()) + "," + getInput(lstPr, a.getInput())
+									+ ");";
+
+						} else {
+							sample = sample + getObject(lstOj, a.getObject()) + ");";
+						}
+					} else if (a.getInput() != "" && a.getInput() != null) {
+						sample = sample + getInput(lstPr, a.getInput()) + ");";
+					}
+					if ((a.getObject().trim() == "" || a.getObject().trim() == null)
+							&& (a.getInput().trim() == "" || a.getInput().trim() == null)) {
+						sample = sample + ");";
+					}
 				}
 			}
-			
+
+		}
+
 		return sample = sample + "\n}";
 	}
-					
 
 	public String importHeader() {
 		String sLine = "package excute;\n" + "import common.CommonBase;\n" + "import org.openqa.selenium.By;\n"
@@ -118,40 +120,38 @@ public class writer extends readExcel{
 		String[] inputs = input.split(";");
 		String output = "";
 		for (String i : inputs) {
-			if(i!=inputs[inputs.length-1]) {
+			if (i != inputs[inputs.length - 1]) {
 				if (i.contains("$")) {
 					for (TestParam pr : lstPr) {
 						if (pr.getName().equals(i.replace("$", ""))) {
-							output= output+ "\"" + pr.getValue() + "\",";
+							output = output + "\"" + pr.getValue() + "\",";
 						}
 					}
 				} else {
-					output= output+ i +",";
+					output = output + i + ",";
 				}
-			}else {
+			} else {
 				if (i.contains("$")) {
 					for (TestParam pr : lstPr) {
 						if (pr.getName().equals(i.replace("$", ""))) {
-							output= output+ "\"" + pr.getValue() + "\"";
+							output = output + "\"" + pr.getValue() + "\"";
 						}
 					}
 				} else {
-					output= output+ i ;
+					output = output + i;
 				}
 			}
-			
-			
+
 		}
-		//output= output.substring(0, output.length()-1);
+		// output= output.substring(0, output.length()-1);
 		return output;
 	}
 
 	public void writing(String name) throws Exception {
-		String sLine = importHeader()
-				+ className(name, TestCase());
+		String sLine = importHeader() + className(name, TestCase());
 		try {
 			// Whatever the file path is.
-			File statText = new File(System.getProperty("user.dir") + "/src/test/java/excute/"+name+".java");
+			File statText = new File(System.getProperty("user.dir") + "/src/test/java/excute/" + name + ".java");
 			FileOutputStream is = new FileOutputStream(statText);
 			OutputStreamWriter osw = new OutputStreamWriter(is);
 			Writer w = new BufferedWriter(osw);
