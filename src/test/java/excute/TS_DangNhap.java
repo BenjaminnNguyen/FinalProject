@@ -81,18 +81,6 @@ public final class TS_DangNhap extends CommonBase {
 		waitForPageLoaded(driver);
 		verifyEmpty(By.id("PassWord"));}
 	@Test
-	public void TC_06_DangNhapVoiFacebook() {
-		waitForPageLoaded(driver);
-		setText(By.id("UserName"),"manh");
-		setText(By.id("PassWord"),"manh123");
-		click(By.xpath("//*[@class='btn btn-facebook btn-user btn-block']"));
-		waitForPageLoaded(driver);
-		String titleFacebookPage=getTitle();
-		verifyCompare(titleFacebookPage,"Facebook");
-		back(driver);
-		waitForPageLoaded(driver);
-		verifyEmpty(By.id("PassWord"));}
-	@Test
 	public void TC_07_DangNhap_QuenMatKhau() {
 		waitForPageLoaded(driver);
 		setText(By.id("UserName"),"manh");
@@ -104,6 +92,5 @@ public final class TS_DangNhap extends CommonBase {
 		back(driver);
 		waitForPageLoaded(driver);
 		verifyEmpty(By.id("PassWord"));
-		
 }
 }
