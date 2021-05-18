@@ -1,5 +1,5 @@
 package common;
-
+import static model.CT_Account.*;
 import static io.restassured.RestAssured.given;
 
 import java.io.BufferedReader;
@@ -12,6 +12,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
@@ -32,7 +36,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import converter.readExcel;
+import converter.Excel.ReadExcel;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.bonigarcia.wdm.config.DriverManagerType;
 //import MODEL.Config;
@@ -83,7 +87,18 @@ public class CommonBase {
 		driver.manage().window().maximize();
 		return driver;
 	}
-
+	/**
+	 * login to system
+	 * @param user
+	 * @param pass
+	 */
+	public void login(String user, String pass){
+		setText(ELEMENT_USERNAME_TEXTBOX, user);
+		setText(ELEMENT_PASSWORD_TEXTBOX, pass);
+		System.out.println("Login vao he thong voi user " + user);
+		click(ELEMENT_LOGIN_BUTTON);
+		waitForElementDisappear(ELEMENT_LOGIN_BUTTON);
+	}
 	// close browser
 	public void closeBrowser() {
 		driver.close();
@@ -258,7 +273,65 @@ public class CommonBase {
 			loopCount = 0;
 		}
 	}
+	/**
+	 * 
+	 * @param locator
+	 * @param safeToSERE
+	 * @param opParams
+	 */
+	public void mouseOver(Object locator, boolean safeToSERE, Object...opParams) {
+		WebElement element;
+		Actions actions = new Actions(driver);
+		int notDisplay = (Integer) (opParams.length > 0 ? opParams[0]: 0);
+		try {
+			if (safeToSERE) {
+				for (int i = 1; i < ACTION_REPEAT; i++){
+					info("Thuc hien mouserover repeat lan thu " + i);
+					element = getElementPresent(locator, 2000, 0, notDisplay);
+					info("Doi tuong " + element);
+					if (element == null){
+						pause(WAIT_INTERVAL);
+					} else {
+						info("Thuc hien action");
+						actions.moveToElement(element).build().perform();
+						break;
+					}
+				}
+			} else {
+				element = getElementPresent(locator);
+				actions.moveToElement(element).build().perform();
+			}
+		} catch (StaleElementReferenceException e) {
+			checkCycling(e, DEFAULT_TIMEOUT/WAIT_INTERVAL);
+			pause(WAIT_INTERVAL);
+			mouseOver(locator, safeToSERE);
+		} finally {
+			loopCount = 0;
+		}
+	}
 
+	/**
+	 * accept unexpected alert
+	 */
+	public void acceptAlert(){
+		 try {
+		     driver.switchTo().alert().accept();;
+
+		 } catch (org.openqa.selenium.NoAlertPresentException ex) {
+		       info("No Alert present");;
+		 }
+	}
+	/**
+	 * dismiss unexpected alert
+	 */
+	public void DismissAlert(){
+		 try {
+		     driver.switchTo().alert().dismiss();;
+
+		 } catch (org.openqa.selenium.NoAlertPresentException ex) {
+		       info("No Alert present");;
+		 }
+	}
 	/**
 	 * switch to a frame
 	 * 
@@ -486,24 +559,7 @@ public class CommonBase {
 			loopCount = 0;
 		}
 	}
-
-	/**
-	 * get text of element
-	 * 
-	 * @param locator
-	 * @return
-	 */
-	public String getText(WebElement element) {
-		try {
-			return element.getText();
-		} catch (StaleElementReferenceException e) {
-			checkCycling(e, DEFAULT_TIMEOUT / WAIT_INTERVAL);
-			pause(WAIT_INTERVAL);
-			return getText(element);
-		} finally {
-			loopCount = 0;
-		}
-	}
+	
 
 	/**
 	 * compare 2 string
@@ -527,9 +583,11 @@ public class CommonBase {
 	 * @param s1
 	 * @param s2
 	 */
-	public Boolean verifyElementText(WebElement element, String text) {
+	public Boolean verifyElementText(Object locator, String text) {
 		Boolean check = false;
+		
 		try {
+			WebElement element = getElementPresent(locator);
 			if (element.getText() == text) {
 				check = true;
 			}
@@ -708,4 +766,67 @@ public class CommonBase {
 		}
 		return JSONPath;
 	}
+	public void scrollToElement(Object locator, Object...opParams){
+		int notDisplay = (Integer) (opParams.length > 0 ? opParams[0]: 0);	
+		WebElement element = getElementPresent(locator, DEFAULT_TIMEOUT, 1, notDisplay);
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);	
+	}
+	public String parseStringToObject(String xpathOption, String option){
+		String xpath = xpathOption.replaceAll("&option", option);
+		return xpath;
+	}
+	/**
+	 * get absolute path of file
+	 * @param relativeFilePath
+	 * @return
+	 */
+	public String getAbsoluteFilePath(String relativeFilePath){
+		String curDir = System.getProperty("user.dir");
+		String absolutePath = curDir + relativeFilePath;
+		return absolutePath;
+	}
+	/**
+	 * 
+	 * @param file
+	 * @param filePath
+	 */
+	public void uploadFile(Object file, String filePath){
+		WebElement e = getElement(file);
+		String plaForm = System.getProperty("platForm") != null ? System.getProperty("platForm"): "Window";
+		if (plaForm.equalsIgnoreCase("Window")) {
+			e.sendKeys(getAbsoluteFilePath("\\file_to_upload\\" + filePath));
+		}else {
+			e.sendKeys(getAbsoluteFilePath("/file_to_upload/" + filePath));
+		}
+	}
+	   /* Evaluates the given expression and returns the result in String format. */
+    public String evaluate(String expression) {
+     ScriptEngineManager mgr = new ScriptEngineManager();
+     ScriptEngine engine = mgr.getEngineByName("JavaScript");
+     String result = null;
+     try {    	 
+    	 result = engine.eval(expression).toString();
+    	 if (result.endsWith(".0")) {
+    		info("Ket qua cua bieu thuc " + expression + " la: " + result + " Return phan nguyen");
+    		for (int i = 0; i < result.length(); i++) {
+    			if (result.charAt(i) == '.') {
+    				return result.substring(0, i);
+    			}
+    		}
+    	 }
+    	 info("Ket qua cua bieu thuc " + expression + " la: "+ result);
+     } catch (ScriptException e) {
+    	 e.printStackTrace();
+     }
+     return result;
+    }
+    
+	public void verifyNotContains(String s1, String s2) {
+		if (s1 != null && s2 != null && s2.contains(s1)) {
+			info("Fail do chuoi " + s2 + "  van chua chuoi " + s1);
+			Assert.assertFalse(s2.contains(s1));
+		}
+	}
+
+
 }

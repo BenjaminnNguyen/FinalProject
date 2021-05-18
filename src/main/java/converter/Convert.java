@@ -39,7 +39,7 @@ import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 
-public class convert extends JFrame {
+public class Convert extends JFrame {
 
 	private JPanel contentPane;
 
@@ -50,7 +50,7 @@ public class convert extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					convert frame = new convert();
+					Convert frame = new Convert();
 					frame.setVisible(true);
 					
 				} catch (Exception e) {
@@ -63,7 +63,7 @@ public class convert extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public convert() {
+	public Convert() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 764, 402);
 		contentPane = new JPanel();
@@ -182,7 +182,7 @@ public class convert extends JFrame {
 		button_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				writer w = new writer(System.getProperty("user.dir") + "/TESTSUITE/"+list.getSelectedValue().toString());
+				WriteJavaFile w = new WriteJavaFile(System.getProperty("user.dir") + "/TESTSUITE/"+list.getSelectedValue().toString());
 				//readExcel re = new readExcel();
 				String t = list.getSelectedValue().toString();
 				System.out.println(t);

@@ -10,12 +10,13 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
+import converter.Excel.ReadExcel;
 import model.TestDetail;
 import model.TestObject;
 import model.TestParam;
 
-public class writer extends readExcel {
-	public writer(String filepath) {
+public class WriteJavaFile extends ReadExcel {
+	public WriteJavaFile(String filepath) {
 		super(filepath);
 		// TODO Auto-generated constructor stub
 	}

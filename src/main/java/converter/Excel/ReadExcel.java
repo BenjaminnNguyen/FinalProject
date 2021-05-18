@@ -1,4 +1,4 @@
-package converter;
+package converter.Excel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import model.TestObject;
 import model.TestParam;
 import common.*;
 
-public class readExcel {
+public class ReadExcel {
 
 	public String path = "";
 	String sheetTestcaseList = "ListTestcase";
@@ -20,7 +20,7 @@ public class readExcel {
 	String sheetParam = "Param";
 	ExcelUtils eu = new ExcelUtils(path);
 	
-	public readExcel(String filepath) {
+	public ReadExcel(String filepath) {
 		this.path =filepath;
 		eu = new ExcelUtils(filepath);
 		

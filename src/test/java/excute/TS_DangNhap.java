@@ -104,5 +104,6 @@ public final class TS_DangNhap extends CommonBase {
 		back(driver);
 		waitForPageLoaded(driver);
 		verifyEmpty(By.id("PassWord"));
+		
 }
 }
