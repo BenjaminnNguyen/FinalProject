@@ -3,14 +3,13 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="excute.TS_DangNhap">
+      <class name="excute.TS_ThemSach">
         <methods>
+          <include name="TC_01_ThemThanhCong"/>
           <include name="afterMethod"/>
           <include name="beforeMethod"/>
-          <include name="TC_06_DangNhapVoiFacebook"/>
-          <include name="TC_05_DangNhapVoiGoogle"/>
         </methods>
-      </class> <!-- excute.TS_DangNhap -->
+      </class> <!-- excute.TS_ThemSach -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

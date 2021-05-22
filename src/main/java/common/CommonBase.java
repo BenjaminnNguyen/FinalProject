@@ -1,5 +1,5 @@
 package common;
-import static model.CT_Account.*;
+import static common.CT_Account.*;
 import static io.restassured.RestAssured.given;
 
 import java.io.BufferedReader;
@@ -53,21 +53,15 @@ public class CommonBase {
 	public WebDriver openBrowser(String BrowserName, String url) {
 		try {
 			if (BrowserName == "FireFox") {
-				// System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") +
-				// "/DRIVER/geckodriver.exe");
 				WebDriverManager.firefoxdriver().setup();
 				driver = new FirefoxDriver();
 				driver.get(url);
 			} else if (BrowserName == "Chrome") {
-//			System.setProperty("webdriver.chrome.driver",
-//					System.getProperty("user.dir") + "/DRIVER/chromedriver.exe");
 				WebDriverManager.chromedriver().setup();
 				driver = new ChromeDriver();
 				driver.get(url);
 			} else if (BrowserName == "IE") {
 				WebDriverManager.iedriver().setup();
-				// System.setProperty("webdriver.ie.driver", System.getProperty("user.dir") +
-				// "/DRIVER/IEDriverServer.exe");
 				driver = new InternetExplorerDriver();
 				driver.get(url);
 			} else if (BrowserName == "Opera") {
@@ -320,6 +314,19 @@ public class CommonBase {
 		 } catch (org.openqa.selenium.NoAlertPresentException ex) {
 		       info("No Alert present");;
 		 }
+	}
+	/**
+	 * accept unexpected alert
+	 */
+	public String getAlertText(){
+		String alert="";
+		 try {
+		    alert= driver.switchTo().alert().getText();
+
+		 } catch (org.openqa.selenium.NoAlertPresentException ex) {
+		       info("No Alert present");;
+		 }
+		 return alert;
 	}
 	/**
 	 * dismiss unexpected alert
@@ -649,7 +656,14 @@ public class CommonBase {
 		Select dropDown = new Select(getElement(locator));
 		dropDown.selectByVisibleText(value);
 	}
-
+	public void selectFromDropdownByIndex(Object locator, String index) {
+		Select dropDown = new Select(getElement(locator));
+		dropDown.selectByIndex(Integer.parseInt(index.trim()));
+	}
+	public String getFirstSelectedOption(Object locator) {
+		Select dropDown = new Select(getElement(locator));
+		return dropDown.getFirstSelectedOption().getText();
+	}
 	/**
 	 * 
 	 * @param locator
