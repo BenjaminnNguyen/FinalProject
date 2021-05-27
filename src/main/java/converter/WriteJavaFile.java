@@ -61,6 +61,9 @@ public class WriteJavaFile extends ReadExcel {
 					if (a.getObject().trim().equals("") && a.getInput().trim().equals("")) {
 						sample = sample + ");";
 					}
+					if(a.getObject().trim().equals("") && !a.getInput().trim().equals("")) {
+						sample = sample + getInput(lstPr, a.getInput()) + ");";
+					}
 				} else {
 					sample = sample + "\n\t\t" + a.getScript() + "(";
 					if (a.getObject() != "" && a.getObject() != null) {
@@ -83,7 +86,7 @@ public class WriteJavaFile extends ReadExcel {
 
 		}
 
-		return sample = sample + "\n}";
+		return sample = sample + "\n\t}";
 	}
 
 	public String importHeader() {
@@ -116,33 +119,46 @@ public class WriteJavaFile extends ReadExcel {
 	}
 
 	public String getInput(List<TestParam> lst, String input) throws Exception {
+		String output = "";
 		List<TestParam> lstPr = new ArrayList();
 		lstPr = readTestParam();
-		String[] inputs = input.split(";");
-		String output = "";
-		for (String i : inputs) {
-			if (i != inputs[inputs.length - 1]) {
-				if (i.contains("$")) {
-					for (TestParam pr : lstPr) {
-						if (pr.getName().equals(i.replace("$", ""))) {
-							output = output + "\"" + pr.getValue() + "\",";
+		if (input.contains(";")) {
+			String[] inputs = input.split(";");
+			for (String i : inputs) {
+				if (i != inputs[inputs.length - 1]) {
+					if (i.contains("$")) {
+						for (TestParam pr : lstPr) {
+							if (pr.getName().equals(i.replace("$", ""))) {
+								output = output + "\"" + pr.getValue() + "\",";
+							}
 						}
+					} else {
+						output = output + i + ",";
 					}
 				} else {
-					output = output + i + ",";
+					if (i.contains("$")) {
+						for (TestParam pr : lstPr) {
+							if (pr.getName().equals(i.replace("$", ""))) {
+								output = output + "\"" + pr.getValue() + "\"";
+							}
+						}
+					} else {
+						output = output + i;
+					}
+				}
+
+			}
+		}
+		else {
+			if (input.contains("$")) {
+				for (TestParam pr : lstPr) {
+					if (pr.getName().equals(input.replace("$", ""))) {
+						output = output + "\"" + pr.getValue() + "\"";
+					}
 				}
 			} else {
-				if (i.contains("$")) {
-					for (TestParam pr : lstPr) {
-						if (pr.getName().equals(i.replace("$", ""))) {
-							output = output + "\"" + pr.getValue() + "\"";
-						}
-					}
-				} else {
-					output = output + i;
-				}
+				output = output + input;
 			}
-
 		}
 		// output= output.substring(0, output.length()-1);
 		return output;

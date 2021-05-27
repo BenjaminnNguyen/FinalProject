@@ -23,8 +23,10 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.By.ByXPath;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -81,18 +83,21 @@ public class CommonBase {
 		driver.manage().window().maximize();
 		return driver;
 	}
+
 	/**
 	 * login to system
+	 * 
 	 * @param user
 	 * @param pass
 	 */
-	public void login(String user, String pass){
+	public void login(String user, String pass) {
 		setText(ELEMENT_USERNAME_TEXTBOX, user);
 		setText(ELEMENT_PASSWORD_TEXTBOX, pass);
 		System.out.println("Login vao he thong voi user " + user);
 		click(ELEMENT_LOGIN_BUTTON);
 		waitForElementDisappear(ELEMENT_LOGIN_BUTTON);
 	}
+
 	// close browser
 	public void closeBrowser() {
 		driver.close();
@@ -128,6 +133,17 @@ public class CommonBase {
 		}
 	}
 
+	public void waitForElement(Object locator, WebDriver driver) {
+		try {
+			WebElement el = getElementPresent(locator);
+			WebDriverWait wait = new WebDriverWait(driver, 30);
+			wait.until(ExpectedConditions.visibilityOf(el));
+
+		} catch (TimeoutException var2) {
+			throw new AssertionError(var2.getMessage());
+		}
+	}
+
 	public void waitPageLoaded(String value) {
 		try {
 			Thread.sleep(Long.parseLong(value));
@@ -153,6 +169,20 @@ public class CommonBase {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void verifyContain(String s1, String s2) {
+		if (s1.trim() == null || s1.trim() == "" || s2.trim() == null || s2.trim() == "") {
+
+			Assert.fail("One of strings is null");
+		} else {
+			Assert.assertFalse(s1.contains(s2));
+		}
+	}
+
+	// user via object Text
+	public String getElementText(Object locator) {
+		return "";
 	}
 
 	public WebElement getElement(Object locator) {
@@ -182,7 +212,7 @@ public class CommonBase {
 	}
 
 	private static void info(String string) {
-		System.out.print(string);
+		System.out.println(string);
 
 	}
 
@@ -267,23 +297,24 @@ public class CommonBase {
 			loopCount = 0;
 		}
 	}
+
 	/**
 	 * 
 	 * @param locator
 	 * @param safeToSERE
 	 * @param opParams
 	 */
-	public void mouseOver(Object locator, boolean safeToSERE, Object...opParams) {
+	public void mouseOver(Object locator, boolean safeToSERE, Object... opParams) {
 		WebElement element;
 		Actions actions = new Actions(driver);
-		int notDisplay = (Integer) (opParams.length > 0 ? opParams[0]: 0);
+		int notDisplay = (Integer) (opParams.length > 0 ? opParams[0] : 0);
 		try {
 			if (safeToSERE) {
-				for (int i = 1; i < ACTION_REPEAT; i++){
+				for (int i = 1; i < ACTION_REPEAT; i++) {
 					info("Thuc hien mouserover repeat lan thu " + i);
 					element = getElementPresent(locator, 2000, 0, notDisplay);
 					info("Doi tuong " + element);
-					if (element == null){
+					if (element == null) {
 						pause(WAIT_INTERVAL);
 					} else {
 						info("Thuc hien action");
@@ -296,7 +327,7 @@ public class CommonBase {
 				actions.moveToElement(element).build().perform();
 			}
 		} catch (StaleElementReferenceException e) {
-			checkCycling(e, DEFAULT_TIMEOUT/WAIT_INTERVAL);
+			checkCycling(e, DEFAULT_TIMEOUT / WAIT_INTERVAL);
 			pause(WAIT_INTERVAL);
 			mouseOver(locator, safeToSERE);
 		} finally {
@@ -307,38 +338,46 @@ public class CommonBase {
 	/**
 	 * accept unexpected alert
 	 */
-	public void acceptAlert(){
-		 try {
-		     driver.switchTo().alert().accept();;
+	public void acceptAlert() {
+		try {
+			driver.switchTo().alert().accept();
+			;
 
-		 } catch (org.openqa.selenium.NoAlertPresentException ex) {
-		       info("No Alert present");;
-		 }
+		} catch (org.openqa.selenium.NoAlertPresentException ex) {
+			info("No Alert present");
+			;
+		}
 	}
+
 	/**
 	 * accept unexpected alert
 	 */
-	public String getAlertText(){
-		String alert="";
-		 try {
-		    alert= driver.switchTo().alert().getText();
+	public String getAlertText() {
+		String alert = "";
+		try {
+			alert = driver.switchTo().alert().getText();
 
-		 } catch (org.openqa.selenium.NoAlertPresentException ex) {
-		       info("No Alert present");;
-		 }
-		 return alert;
+		} catch (org.openqa.selenium.NoAlertPresentException ex) {
+			info("No Alert present");
+			;
+		}
+		return alert;
 	}
+
 	/**
 	 * dismiss unexpected alert
 	 */
-	public void DismissAlert(){
-		 try {
-		     driver.switchTo().alert().dismiss();;
+	public void DismissAlert() {
+		try {
+			driver.switchTo().alert().dismiss();
+			;
 
-		 } catch (org.openqa.selenium.NoAlertPresentException ex) {
-		       info("No Alert present");;
-		 }
+		} catch (org.openqa.selenium.NoAlertPresentException ex) {
+			info("No Alert present");
+			;
+		}
 	}
+
 	/**
 	 * switch to a frame
 	 * 
@@ -376,9 +415,10 @@ public class CommonBase {
 		WebElement element = getElement(object);
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.visibilityOf(element));
-		Assert.assertEquals(element.getAttribute("value").toString().trim(),"");
+		Assert.assertEquals(element.getAttribute("value").toString().trim(), "");
 
 	}
+
 	public void clearText(Object object) {
 		WebElement element = getElement(object);
 		WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -413,7 +453,7 @@ public class CommonBase {
 	 * @param validate
 	 */
 	public void setText(Object object, String value) {
-		//WebElement element = getElement(object);
+		// WebElement element = getElement(object);
 		WebElement element = getElementPresent(object, 30000);
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		try {
@@ -525,11 +565,7 @@ public class CommonBase {
 		WebElement element = getElement(locator);
 		Actions actions = new Actions(driver);
 		try {
-			if (element.isEnabled()) {
-				actions.click(element).perform();
-			} else {
-				info("Element is not enabled");
-			}
+			actions.click(element).perform();
 		} catch (StaleElementReferenceException e) {
 			checkCycling(e, DEFAULT_TIMEOUT / WAIT_INTERVAL);
 			pause(WAIT_INTERVAL);
@@ -566,7 +602,6 @@ public class CommonBase {
 			loopCount = 0;
 		}
 	}
-	
 
 	/**
 	 * compare 2 string
@@ -584,6 +619,38 @@ public class CommonBase {
 		}
 	}
 
+	/*
+	 * compare 2 number
+	 * 
+	 * @param s1
+	 * 
+	 * @param s2
+	 */
+	public void verifyCompareNumber(String s1, String s2) {
+		if (s1 != "" && s1 != null && s2 != null && s2 != "") {
+			try {
+				double n1 = Double.parseDouble(s1);
+				double n2 = Double.parseDouble(s2);
+				info("Compare " + s1 + " with " + s2);
+				Assert.assertEquals(n2, n1);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		} else if ((s1 == "" || s1 == null) && (s2 == "" || s2 == null)) {
+			info("2 truong du lieu can so sanh deu null");
+		} else {
+			Assert.fail("Du lieu so sanh co 1 truong bi null");
+		}
+	}
+
+	public boolean verifyTextPresent(String text) {
+		if (driver.getPageSource().contains(text)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	/**
 	 * verifyElementText
 	 * 
@@ -592,7 +659,7 @@ public class CommonBase {
 	 */
 	public Boolean verifyElementText(Object locator, String text) {
 		Boolean check = false;
-		
+
 		try {
 			WebElement element = getElementPresent(locator);
 			if (element.getText() == text) {
@@ -656,14 +723,17 @@ public class CommonBase {
 		Select dropDown = new Select(getElement(locator));
 		dropDown.selectByVisibleText(value);
 	}
+
 	public void selectFromDropdownByIndex(Object locator, String index) {
 		Select dropDown = new Select(getElement(locator));
 		dropDown.selectByIndex(Integer.parseInt(index.trim()));
 	}
+
 	public String getFirstSelectedOption(Object locator) {
 		Select dropDown = new Select(getElement(locator));
 		return dropDown.getFirstSelectedOption().getText();
 	}
+
 	/**
 	 * 
 	 * @param locator
@@ -770,7 +840,7 @@ public class CommonBase {
 	public String getTitle() {
 		return driver.getTitle();
 	}
-	
+
 	public String getJSONPath(Response res) {
 		String JSONPath = "";
 		try {
@@ -780,67 +850,72 @@ public class CommonBase {
 		}
 		return JSONPath;
 	}
-	public void scrollToElement(Object locator, Object...opParams){
-		int notDisplay = (Integer) (opParams.length > 0 ? opParams[0]: 0);	
+
+	public void scrollToElement(Object locator, Object... opParams) {
+		int notDisplay = (Integer) (opParams.length > 0 ? opParams[0] : 0);
 		WebElement element = getElementPresent(locator, DEFAULT_TIMEOUT, 1, notDisplay);
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);	
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
 	}
-	public String parseStringToObject(String xpathOption, String option){
+
+	public String parseStringToObject(String xpathOption, String option) {
 		String xpath = xpathOption.replaceAll("&option", option);
 		return xpath;
 	}
+
 	/**
 	 * get absolute path of file
+	 * 
 	 * @param relativeFilePath
 	 * @return
 	 */
-	public String getAbsoluteFilePath(String relativeFilePath){
+	public String getAbsoluteFilePath(String relativeFilePath) {
 		String curDir = System.getProperty("user.dir");
 		String absolutePath = curDir + relativeFilePath;
 		return absolutePath;
 	}
+
 	/**
 	 * 
 	 * @param file
 	 * @param filePath
 	 */
-	public void uploadFile(Object file, String filePath){
+	public void uploadFile(Object file, String filePath) {
 		WebElement e = getElement(file);
-		String plaForm = System.getProperty("platForm") != null ? System.getProperty("platForm"): "Window";
+		String plaForm = System.getProperty("platForm") != null ? System.getProperty("platForm") : "Window";
 		if (plaForm.equalsIgnoreCase("Window")) {
 			e.sendKeys(getAbsoluteFilePath("\\file_to_upload\\" + filePath));
-		}else {
+		} else {
 			e.sendKeys(getAbsoluteFilePath("/file_to_upload/" + filePath));
 		}
 	}
-	   /* Evaluates the given expression and returns the result in String format. */
-    public String evaluate(String expression) {
-     ScriptEngineManager mgr = new ScriptEngineManager();
-     ScriptEngine engine = mgr.getEngineByName("JavaScript");
-     String result = null;
-     try {    	 
-    	 result = engine.eval(expression).toString();
-    	 if (result.endsWith(".0")) {
-    		info("Ket qua cua bieu thuc " + expression + " la: " + result + " Return phan nguyen");
-    		for (int i = 0; i < result.length(); i++) {
-    			if (result.charAt(i) == '.') {
-    				return result.substring(0, i);
-    			}
-    		}
-    	 }
-    	 info("Ket qua cua bieu thuc " + expression + " la: "+ result);
-     } catch (ScriptException e) {
-    	 e.printStackTrace();
-     }
-     return result;
-    }
-    
+
+	/* Evaluates the given expression and returns the result in String format. */
+	public String evaluate(String expression) {
+		ScriptEngineManager mgr = new ScriptEngineManager();
+		ScriptEngine engine = mgr.getEngineByName("JavaScript");
+		String result = null;
+		try {
+			result = engine.eval(expression).toString();
+			if (result.endsWith(".0")) {
+				info("Ket qua cua bieu thuc " + expression + " la: " + result + " Return phan nguyen");
+				for (int i = 0; i < result.length(); i++) {
+					if (result.charAt(i) == '.') {
+						return result.substring(0, i);
+					}
+				}
+			}
+			info("Ket qua cua bieu thuc " + expression + " la: " + result);
+		} catch (ScriptException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 	public void verifyNotContains(String s1, String s2) {
 		if (s1 != null && s2 != null && s2.contains(s1)) {
 			info("Fail do chuoi " + s2 + "  van chua chuoi " + s1);
 			Assert.assertFalse(s2.contains(s1));
 		}
 	}
-
 
 }
