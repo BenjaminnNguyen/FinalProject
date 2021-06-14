@@ -25,15 +25,6 @@ public final class TS_DangNhap extends CommonBase {
 		String userName=getText(By.xpath("//li[contains(@class,'dropdown user user-menu')]//span"));
 		verifyCompare(userName,"Tran Tiên Manh");}
 	@Test
-	public void TC_02_DangNhapKhongThanhCong_BoTrongAll() {
-		waitForPageLoaded(driver);
-		clearText(By.id("UserName"));
-		clearText(By.id("PassWord"));
-		click(By.xpath("//button[@type='submit']"));
-		waitForPageLoaded(driver);
-		String popUpFail=getText(By.xpath("//div[@class='validation-summary-errors text-danger']//li"));
-		verifyCompare(popUpFail,"Enter a valid username!");}
-	@Test
 	public void TC_03_DangNhapKhongThanhCong_BoTrongTruongDL() {
 		clearText(By.id("UserName"));
 		setText(By.id("PassWord"),"manh123");

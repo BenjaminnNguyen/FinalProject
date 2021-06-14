@@ -13,8 +13,7 @@ public final class TS_ThemGioHang extends CommonBase {
 		login("bao","bao123");}
 	@AfterMethod
 	public void afterMethod() {
-		quitDriver();
-		}
+		quitDriver();}
 	@Test
 	public void TC_01_ThemGioHangMotSanPham() {
 		waitForPageLoaded(driver);
@@ -92,5 +91,8 @@ public final class TS_ThemGioHang extends CommonBase {
 		String totalCart=getText(By.id("total_price"));
 		String totalCartTrue=evaluate(bookPrice2 +"+"+bookPrice);
 		verifyCompareNumber(totalCartTrue,totalCart);
+		click(By.id("btn_deleteAll"));
+		waitForPageLoaded(driver);
+		verifyTextPresent("Chưa có sản phẩm nào trong giỏ hàng");
 	}
 }
