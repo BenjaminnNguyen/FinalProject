@@ -3,13 +3,18 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="excute.TS_ThemGioHang">
+      <class name="excute.TS_SuaSach">
         <methods>
-          <include name="TC_01_ThemGioHangMotSanPham"/>
-          <include name="beforeMethod"/>
           <include name="afterMethod"/>
+          <include name="TC_02_KiemTraBoTrong"/>
+          <include name="TC_03_ValidateTenSach"/>
+          <include name="beforeMethod"/>
+          <include name="TC_06_ValidateNhaXuatBan"/>
+          <include name="TC_01_SuaThanhCong"/>
+          <include name="TC_04_ValidateTenAnh"/>
+          <include name="TC_07_ValidateTacGia"/>
         </methods>
-      </class> <!-- excute.TS_ThemGioHang -->
+      </class> <!-- excute.TS_SuaSach -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

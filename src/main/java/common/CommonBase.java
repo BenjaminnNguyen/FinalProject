@@ -917,5 +917,10 @@ public class CommonBase {
 			Assert.assertFalse(s2.contains(s1));
 		}
 	}
+	public void verifyAttributeValue(Object obj, String attribute, String value) {
+		WebElement e = getElementPresent(obj);
+		Assert.assertTrue(e.getAttribute(attribute).contains(value)); 
+
+	}
 
 }

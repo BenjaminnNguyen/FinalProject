@@ -72,9 +72,9 @@ public class Convert extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		final Label label = new Label("Choose a file");
+		final Label label = new Label("Choose a file to convert");
 		final String fileNameString = "";
-		label.setBounds(20, 37, 300, 21);
+		label.setBounds(30, 27, 300, 21);
 		contentPane.add(label);
 		final JTextArea textArea = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane();
@@ -168,7 +168,7 @@ public class Convert extends JFrame {
 		});
 		button.setFont(new Font("Arial", Font.BOLD, 13));
 		button.setBackground(Color.YELLOW);
-		button.setBounds(20, 299, 110, 30);
+		button.setBounds(30, 302, 110, 30);
 		contentPane.add(button);
 
 		/*
@@ -208,7 +208,7 @@ public class Convert extends JFrame {
 		});
 		button_1.setFont(new Font("Arial", Font.BOLD, 13));
 		button_1.setBackground(Color.YELLOW);
-		button_1.setBounds(238, 154, 120, 30);
+		button_1.setBounds(238, 151, 120, 30);
 		contentPane.add(button_1);
 
 	}
